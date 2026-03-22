@@ -17,10 +17,12 @@ export const loginUser = async (data: authProp) => {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
-      "Content-Type": "application/josn",
+      "Content-Type": "application/json",
     },
   });
 
+  console.log("error login is ", res);
+  
   if (!res.ok) throw new Error("login failed ");
 
   return res.json();
