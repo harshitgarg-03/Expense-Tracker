@@ -28,8 +28,23 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        <QueryProvider>{children}</QueryProvider>
+      <body className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-gray-900 text-gray-900 dark:text-gray-100">
+        {/* Navbar (optional but recommended) */}
+        <header className="w-full border-b border-gray-200 dark:border-gray-800 backdrop-blur bg-white/70 dark:bg-gray-900/70 sticky top-0 z-50">
+          <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <span className="font-semibold text-lg">ExpenseTracker</span>
+          </div>
+        </header>
+
+        {/* Main Content */}
+        <main className="flex-1 w-full max-w-6xl mx-auto px-4 py-6">
+          <QueryProvider>{children}</QueryProvider>
+        </main>
+
+        {/* Footer */}
+        <footer className="w-full border-t border-gray-200 dark:border-gray-800 text-center text-sm text-gray-500 py-4">
+          © 2026 ExpenseTracker
+        </footer>
       </body>
     </html>
   );
