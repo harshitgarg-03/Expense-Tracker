@@ -16,7 +16,7 @@ import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
 const connectionString = "postgresql://postgres:1610@localhost:5432/test";
-console.log("helo", connectionString);
+// console.log("helo", connectionString);
 
 if (!connectionString) {
     throw new Error("ERROR:: Connection String not found. Please set DATABASE_URL.");
