@@ -1,6 +1,7 @@
 export const signupUser = async(data: authProp) => {
   const res = await fetch("/api/auth/sign-up/email", {
     method: "POST",
+    credentials: "include",
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
@@ -15,13 +16,12 @@ export const signupUser = async(data: authProp) => {
 export const loginUser = async (data: authProp) => {
   const res = await fetch("/api/auth/sign-in/email", {
     method: "POST",
+    credentials: "include",
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
     },
   });
-
-  console.log("error login is ", res);
   
   if (!res.ok) throw new Error("login failed ");
 
@@ -29,11 +29,13 @@ export const loginUser = async (data: authProp) => {
 };
 
 export const getCurrentUser = async () => {
-    const res = await fetch("/api/auth/session");
-
+    const res = await fetch("/api/auth/get-session", {
+      credentials: "include",
+    });
+    
     if(!res.ok) return null;
 
-    return res.json;
+    return res.json();
 };
 
 export const logoutUser = async () => {
