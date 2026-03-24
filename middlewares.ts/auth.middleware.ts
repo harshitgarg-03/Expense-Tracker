@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
+export const config = {
+  matcher: ["/dashboard/:path*", "/login", "/signup"],
+};
+
 export function authMiddleware(request: NextRequest) {
   const session = request.cookies.get("better-auth.session_token")?.value;
 
@@ -22,6 +26,6 @@ export function authMiddleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  
+
   return NextResponse.next();
 }
