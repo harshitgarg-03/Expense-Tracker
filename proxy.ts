@@ -9,10 +9,10 @@ export function proxy(request: NextRequest) {
 
   if (pathname === "/") {
     if (session) {
-      console.log("hello session");
+      // console.log("hello session");
       return NextResponse.redirect(new URL("/dashboard", request.url));
     } else {
-      console.log("hello no session");
+      // console.log("hello no session");
       return NextResponse.redirect(new URL("/home", request.url));
     }
   }
@@ -29,5 +29,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/login", "/signup"],
+  matcher: ["/dashboard/:path*", "/login", "/signup", "/"],
 };
