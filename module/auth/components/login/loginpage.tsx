@@ -36,7 +36,7 @@ export function LoginPage() {
     mutate(parsed.data!);
   };
   return (
-    <div className="max-h-screen flex items-center justify-center bg-linear-to-br  dark:from-gray-950 dark:via-gray-900 dark:to-gray-900 px-4">
+    <div className="w-full min-h-[90vh] flex items-center justify-center bg-white dark:bg-gray-950">
       <div className="w-full max-w-md animate-in fade-in zoom-in-95 duration-500">
         {/* Logo */}
         <div className="flex justify-center mb-8">
