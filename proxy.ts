@@ -6,7 +6,7 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const isPublic = pathname === "/login" || pathname === "/signup";
-     
+      
   if (pathname === "/") {
     if (session) {
       // console.log("hello session");
