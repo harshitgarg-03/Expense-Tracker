@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/components/provider/QueryProvider";
 import { DashboardClient } from "./useClientcall";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,28 +32,50 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
     >
-      <body className="min-h-screen flex flex-col bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-gray-900 text-gray-900 dark:text-gray-100">
-        {/* Navbar (optional but recommended) */}
-        <header className="w-full border-b border-gray-200 dark:border-gray-800 backdrop-blur bg-white/70 dark:bg-gray-900/70 sticky top-0 z-50">
-          <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-            <span className="font-semibold text-lg">ExpenseTracker</span>
-          </div>
-        </header>
+      <body
+        className="
+        min-h-screen flex flex-col m-0 p-0
+        bg-linear-to-br from-gray-50 via-white to-gray-100
+        dark:from-gray-950 dark:via-gray-900 dark:to-gray-950
+        text-gray-900 dark:text-gray-100
+        selection:bg-primary/20
+      "
+      >
+        {/* Background Glow */}
+        <div className="fixed inset-0 -z-10 overflow-hidden">
+          <div className="absolute left-1/2 top-50 h-125 w-125-translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
+          <div className="absolute right-0 top-1/3 h-100 w-100 rounded-full bg-blue-500/10 blur-3xl" />
+        </div>
 
-        {/* Main Content */}
-        <main className="flex-1 w-full max-w-6xl mx-auto px-4 py-6">
-          <QueryProvider>
-            <InitAuth />
-            {children}
-          </QueryProvider>
-        </main>
+        <QueryProvider>
+          <InitAuth />
+          {/* Main Content */}
+          <main className="flex-1 w-full">
+            <div
+              className="
+              
+              bg-white/80 dark:bg-gray-900/70
+              backdrop-blur-xl
+              border border-gray-200/60 dark:border-gray-800/60
+              shadow-xl shadow-gray-200/40 dark:shadow-black/40
+              transition-all duration-300
+              w-full rounded-2xl ... p-4 sm:p-6 lg:p-8
+            "
+            >
+              {children}
+            </div>
+          </main>
+        </QueryProvider>
 
-        {/* Footer */}
-        <footer className="w-full border-t border-gray-200 dark:border-gray-800 text-center text-sm text-gray-500 py-4">
-          © 2026 ExpenseTracker
-        </footer>
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            className: "bg-gray-900 text-white border border-gray-700",
+          }}
+        />
       </body>
     </html>
   );
