@@ -6,6 +6,6 @@ function page() {
   return (
     <DashboardPage/> 
   )
-}          
+}           
 
 export default page
