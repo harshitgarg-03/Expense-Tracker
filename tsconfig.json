@@ -30,6 +30,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "module/home/components/addExpense"  ],
   "exclude": ["node_modules"]
 }
