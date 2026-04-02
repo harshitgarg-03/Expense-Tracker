@@ -62,7 +62,7 @@ export default function RootLayout({
               border border-gray-200/60 dark:border-gray-800/60
               shadow-xl shadow-gray-200/40 dark:shadow-black/40
               transition-all duration-300
-              w-full rounded-2xl p-4 sm:p-6 lg:p-8
+              w-full rounded-2xl
             "
             >
               {children}
