@@ -17,11 +17,9 @@ const navigation = [
 export function Sidebar() {
   const location = usePathname();
   const { user } = useAuthStore();
-  
+  const router = useRouter();
   const { isPending, mutate } = useLogout();
   const handleLogout = () => {
-    console.log("hello logout ");
-    
     mutate();
   };
   
@@ -31,7 +29,8 @@ export function Sidebar() {
   {/* Logo */}
   <div className="flex items-center gap-3 px-5 h-16 border-b">
     <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-blue-600/10">
-      <Wallet className="h-6 w-6 text-blue-600" />
+    
+      <Wallet className="h-6 w-6 cursor-pointer text-blue-600" onClick={() => router.push("/dashboard")}/>
     </div>
     <span className="text-2xl font-semibold tracking-tight">
       ExpenseTracker
