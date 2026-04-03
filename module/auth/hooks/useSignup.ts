@@ -21,7 +21,11 @@ export const useSignup = () => {
     },
 
     onError: (error: any) => {
-      toast.error(error.message || "Signup failed 👎")
+      console.log("sing up ", error);
+      
+      toast.error(error.message || "Signup failed 👎", {
+        className: "bg-red-600 text-white"
+      })
     },
   });
 };

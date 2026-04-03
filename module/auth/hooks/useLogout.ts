@@ -1,15 +1,17 @@
 import { useMutation } from "@tanstack/react-query";
-import { logoutUser } from "../services/auth.api";
 import { useAuthStore } from "../store";
-import { useStore } from "zustand";
+import { useRouter } from "next/navigation";
+import { logoutUser } from "../services/action.api";
 
 export const useLogout = () => {
     const logout = useAuthStore(s => s.logout);
-
+    
+    const navigate = useRouter();
     return useMutation({
         mutationFn: logoutUser,
         onSuccess: () => {
             logout();
+            navigate.push("/home")
         },
     });
 };
