@@ -25,7 +25,7 @@ export function LoginPage() {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data: authProp) => {
-    console.log("pareds dataa", data);
+    // console.log("pareds dataa", data);
 
     const parsed = loginSchema.safeParse(data);
     
