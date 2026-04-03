@@ -3,7 +3,7 @@
 import { useCurrentUser } from "@/module/auth/hooks/useCurrentUser";
 
 export const DashboardClient = () => {
-  useCurrentUser();
-
+    useCurrentUser();
+ 
   return <></>;
 };
