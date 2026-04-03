@@ -12,13 +12,24 @@ enum TransactionType {
   INCOME
   EXPENSE
 }
+enum Category {
+  Food 
+  Travel 
+  Bills 
+  Entertainment 
+  Shopping 
+  Health 
+  Salary
+  Freelance
+  Other
+}
 
 model Transaction {
   id       String          @id
   title    String
   amount   Float
   type     TransactionType
-  category String
+  category Category
   note     String?
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
