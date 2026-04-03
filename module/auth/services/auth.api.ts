@@ -1,4 +1,5 @@
-export const signupUser = async(data: authProp) => {
+
+export const signupUser = async (data: authProp) => {
   const res = await fetch("/api/auth/sign-up/email", {
     method: "POST",
     credentials: "include",
@@ -8,7 +9,7 @@ export const signupUser = async(data: authProp) => {
     },
   });
 
-  if(!res.ok) throw new Error("Signup user failed!");
+  if (!res.ok) throw new Error("Signup user failed!");
 
   return res.json();
 };
@@ -22,26 +23,18 @@ export const loginUser = async (data: authProp) => {
       "Content-Type": "application/json",
     },
   });
-  
+
   if (!res.ok) throw new Error("login failed ");
 
   return res.json();
 };
 
 export const getCurrentUser = async () => {
-    const res = await fetch("/api/auth/get-session", {
-      credentials: "include",
-    });
-    
-    if(!res.ok) return null;
+  const res = await fetch("/api/auth/get-session", {
+    credentials: "include",
+  });
 
-    return res.json();
+  if (!res.ok) return null;
+
+  return res.json();
 };
-
-export const logoutUser = async () => {
-    await fetch("/api/auth/sign-out", {
-        method: "POST",
-    });
-};
-
-
