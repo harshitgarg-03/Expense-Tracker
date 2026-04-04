@@ -28,7 +28,7 @@ export interface TransactionInput {
   title: string;
   amount: number;
   category: Category;
-  type: 'INCOME' | 'EXPENSE';
+  type?: 'INCOME' | 'EXPENSE';
   date: string;
 }
 
@@ -40,16 +40,16 @@ export interface ExpenseFormProps {
 
 
 export interface Transaction {
-  id: string;
+  id?: string;
   title: string;
   amount: number;
   category: Category;
   type: 'INCOME' | 'EXPENSE';
   date: Date;
-  note: String;
-  userId: string;
-  createdAt: Date;
-  updatedAt: Date;
+  note?: String;
+  userId?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface CategoryConfig {
