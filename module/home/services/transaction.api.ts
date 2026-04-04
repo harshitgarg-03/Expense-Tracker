@@ -28,6 +28,8 @@ export const postTransaction = async (
       },
     });
 
+    console.log(" tx res is ", res);
+    
     if (!res.ok) {
       throw new Error("Failed to create transaction");
     }
