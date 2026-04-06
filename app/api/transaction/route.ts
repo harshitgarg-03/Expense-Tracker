@@ -30,18 +30,22 @@ export async function POST(req: Request) {
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session?.user) {
-    return new Response("unauthorized user ", { status: 404 });
+    return new Response("unauthorized user", { status: 401 });
   }
 
   const data = await req.json();
+  console.log("data expense backend is", data);
+
   const transaction = await prisma.transaction.create({
     data: {
-      ...data,
+      title: data.title,
+      amount: Number(data.amount),
+      category: data.category,
+      type: data.type,
+      note: data.note || null,
       userId: session.user.id,
     },
   });
-  if(!transaction) {
-    return new Response("post transactions get failed!", { status: 401 });
-  }
+
   return Response.json(transaction);
 }
