@@ -44,7 +44,7 @@ export async function POST(req: Request) {
       type: data.type,
       note: data.note || null,
       userId: session.user.id,
-    },
+    }, 
   });
 
   return Response.json(transaction);
