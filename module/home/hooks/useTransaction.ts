@@ -42,7 +42,7 @@ export const useTransaction = () => {
 
       tx: Transaction,
     ) => {
-      const month = new Date(tx.createdAt).toLocaleString("default", {
+      const month = new Date(tx.createdAt!).toLocaleString("default", {
         month: "short",
       });
 
