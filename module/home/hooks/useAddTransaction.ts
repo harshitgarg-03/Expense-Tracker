@@ -8,7 +8,7 @@ export const useAddTransaction = () => {
   const { reset } = useForm();
   // console.log("use add transcation ");
           
-  return useMutation({
+  return useMutation({ 
     mutationFn: postTransaction,
 
     onSuccess: () => {
