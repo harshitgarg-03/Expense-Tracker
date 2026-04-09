@@ -33,6 +33,8 @@ export function ExpenseFormUI() {
   const { isPending, mutate } = useAddTransaction();
   const { register, handleSubmit, setValue, watch } = useForm();
   const onSubmit = (data: any) => {
+    console.log("expense xata is ", data);
+    
     mutate({
       ...data,
       type: type,
