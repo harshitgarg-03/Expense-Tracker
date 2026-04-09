@@ -32,6 +32,10 @@ export interface TransactionInput {
   date: string;
 }
 
+export interface TransactionMapping {
+  
+}
+
 export interface ExpenseFormProps {
   onSubmit: (data: TransactionInput) => Promise<void>;
   defaultValues?: Partial<TransactionInput>;
