@@ -19,6 +19,8 @@ export const getTransactions = async (): Promise<Transaction[]> => {
 export const postTransaction = async (
   payload: Transaction,
 ): Promise<Transaction> => {
+  // console.log("payload is ", payload);
+  
   try {
     const res = await fetch("/api/transaction", {
       method: "POST",
@@ -28,7 +30,7 @@ export const postTransaction = async (
       },
     });
 
-    console.log(" tx res is ", res);
+    // console.log(" tx res is ", res);
     
     if (!res.ok) {
       throw new Error("Failed to create transaction");
