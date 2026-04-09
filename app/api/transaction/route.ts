@@ -34,13 +34,13 @@ export async function POST(req: Request) {
   }
 
   const data = await req.json();
-  console.log("data expense backend is", data);
 
   const transaction = await prisma.transaction.create({
     data: {
       title: data.title,
       amount: Number(data.amount),
       category: data.category,
+      date: data.date ? new Date(data.date) : Date.now(),
       type: data.type,
       note: data.note || null,
       userId: session.user.id,
