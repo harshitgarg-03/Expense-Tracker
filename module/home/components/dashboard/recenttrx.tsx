@@ -72,7 +72,7 @@ export function RecentTransactions({ transactions, isLoading }: RecentTransactio
                         {transaction.category}
                       </Badge>
                       <span className="text-xs text-gray-500 dark:text-gray-400">
-                        {format(new Date(transaction.date), 'MMM dd, yyyy')}
+                        {format(new Date(transaction.date!), 'MMM dd, yyyy')}
                       </span>
                     </div>
                   </div>
