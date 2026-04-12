@@ -38,7 +38,7 @@ export const postTransaction = async (
     throw error;
   }
 };
-
+ 
 export const deleteTransaction = async (id: string) => {
   try {
     const res = await fetch(`api/transaction/${id}`, {
