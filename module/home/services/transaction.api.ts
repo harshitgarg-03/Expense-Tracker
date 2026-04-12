@@ -11,7 +11,7 @@ export const getTransactions = async (): Promise<Transaction[]> => {
     const data: Transaction[] = await res.json();
     return data;
   } catch (error) {
-    console.error("Error fetching transactions:", error);
+    // console.error("Error fetching transactions:", error);
     return [];
   }
 };
@@ -19,8 +19,6 @@ export const getTransactions = async (): Promise<Transaction[]> => {
 export const postTransaction = async (
   payload: Transaction,
 ): Promise<Transaction> => {
-  // console.log("payload is ", payload);
-  
   try {
     const res = await fetch("/api/transaction", {
       method: "POST",
@@ -29,9 +27,6 @@ export const postTransaction = async (
         "Content-Type": "application/json",
       },
     });
-
-    // console.log(" tx res is ", res);
-    
     if (!res.ok) {
       throw new Error("Failed to create transaction");
     }
@@ -39,7 +34,25 @@ export const postTransaction = async (
     const result: Transaction = await res.json();
     return result;
   } catch (error) {
-    console.error("PostTransaction Error:", error);
+    // console.error("PostTransaction Error:", error);
     throw error;
+  }
+};
+
+export const deleteTransaction = async (id: string) => {
+  try {
+    const res = await fetch(`api/transaction/${id}`, {
+      method: "DELETE",
+    });
+
+    // console.log("delete res is ", res);
+    
+    if (!res.ok) {
+      throw new Error("error in deleting a transaction ");
+    }
+
+    return await res.json();
+  } catch (error) {
+    throw `error in deleting a transaction ${error}`;
   }
 };
