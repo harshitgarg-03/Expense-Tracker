@@ -10,6 +10,22 @@ export const useTransaction = () => {
     queryFn: getTransactions,
   });
 
+  const allMonths = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  // console.log("data is : ", data);
+
   const balance = data.reduce(
     (
       acc: {
@@ -31,32 +47,62 @@ export const useTransaction = () => {
     { total: 0, expense: 0, income: 0 },
   );
 
-  const transactions = data.slice(0, 5);
+  const transactions = data.slice(0, 10);
 
-  const monthlyData = data.reduce(
-    (
-      acc: {
-        month: string;
-        amount: number;
-      }[],
+  // const monthlyData = data.reduce(
+  //   (
+  //     acc: {
+  //       month: string;
+  //       amount: number;
+  //       expense: number;
+  //       income: number;
+  //     }[],
 
-      tx: Transaction,
-    ) => {
-      const month = new Date(tx.createdAt!).toLocaleString("default", {
+  //     tx: Transaction,
+  //   ) => {
+  //     const month = new Date(tx.createdAt!).toLocaleString("default", {
+  //       month: "short",
+  //     });
+
+  //     const existing = acc.find((item) => item.month === month);
+
+  //     if (existing) {
+  //       existing.amount += tx.amount;
+  //     } else {
+  //       acc.push({ month, amount: tx.amount, income: balance.income, expense: balance.expense });
+  //     }
+  //     return acc;
+  //   },
+  //   [],
+  // );
+
+  const monthlyData = allMonths.map((month) => {
+    const monthTxns = data.filter((tx: Transaction) => {
+      const txMonth = new Date(tx.date).toLocaleString("default", {
         month: "short",
       });
+      return txMonth == month;
+    });
+    // console.log("month txn ", monthTxns);
+    
+    let income = 0;
+    let expense = 0;
 
-      const existing = acc.find((item) => item.month === month);
-
-      if (existing) {
-        existing.amount += tx.amount;
+    monthTxns.forEach((tx) => {
+      if (tx.type === "INCOME") {
+        income += tx.amount;
       } else {
-        acc.push({ month, amount: tx.amount });
+        expense += tx.amount;
       }
-      return acc;
-    },
-    [],
-  );
+    });
+
+    return {
+      month,
+      income,
+      expenses: expense, // chart ke liye important key
+    };
+  });
+  // console.log("monthlyData ", monthlyData);
 
   return {
     balance,
