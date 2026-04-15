@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 
 export const useAddTransaction = () => {
   const queryClient = useQueryClient();
-  const { reset } = useForm();
                 
   return useMutation({ 
     mutationFn: postTransaction,
@@ -14,7 +13,6 @@ export const useAddTransaction = () => {
       
       queryClient.invalidateQueries({ queryKey: ["transaction"] });
       toast.success("Transaction success! 👍");
-      reset();
     },
     onError: () => {
       toast.error("Transaction failed! 👎")
