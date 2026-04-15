@@ -14,11 +14,11 @@ export const useLogin = () => {
     mutationFn: loginUser,
     onSuccess: (data) => {
       setUser(data.user);
-      toast.success("Account Created 🎉🎉");
+      toast.success("Login success 🎉🎉");
       router.push("/dashboard");
     },
     onError: (error: any) => {
-      toast.error(error.message || "Signup failed 👎");
+      toast.error(error.message || "Login failed 👎");
     },
   });
 };
