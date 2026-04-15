@@ -55,10 +55,10 @@ export const deleteTransaction = async (id: string) => {
   }
 };
 
-export const updateTransaction = async (
-  payload: Transaction,
-  id: string,
-): Promise<Transaction> => {
+export const updateTransaction = async ({
+  payload,
+  id,
+}: any): Promise<Transaction> => {
   try {
     const res = await fetch(`api/transaction/${id}`, {
       method: "PUT",
