@@ -26,7 +26,7 @@ export const useCurrentUser = () => {
             setUser(data.user);
             isAuthenticate: true;
             userId: data.user._id
-            router.push("/dashboard");
+            // router.push("/dashboard");
         }
     }, [data, setUser])
     return data;
