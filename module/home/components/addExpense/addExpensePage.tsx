@@ -16,7 +16,7 @@ import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { TransactionInput } from "../../types";
 
-const categories = [
+export const categories = [
   "Food",
   "Travel",
   "Bills",
@@ -31,16 +31,17 @@ const categories = [
 export function ExpenseFormUI() {
   const [type, setType] = useState<"EXPENSE" | "INCOME">("EXPENSE");
   const { isPending, mutate } = useAddTransaction();
-  const { register, handleSubmit, setValue, watch } = useForm();
-  const onSubmit = (data: any) => {
+  const { register, handleSubmit, setValue, watch, reset } = useForm();
+  const onSubmit = async(data: any) => {
     console.log("expense xata is ", data);
     
-    mutate({
+    await mutate({
       ...data,
       type: type,
       amount: Number(data.amount),
       date: new Date(data.date),
     });
+    reset();
   };
 
   return (
@@ -135,6 +136,7 @@ export function ExpenseFormUI() {
             <Button
               className="w-full h-9 text-sm font-medium"
               disabled={isPending}
+              type="submit"
             >
               {isPending ? "Adding..." : "Add Transaction"}
             </Button>
