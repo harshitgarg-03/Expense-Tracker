@@ -28,13 +28,14 @@ export const categories = [
   "Other",
 ];
 
-export function ExpenseFormUI() {
+type modeenum = {
+  mode: "Edit" | "Add";
+};
+export function ExpenseFormUI({ mode }: modeenum) {
   const [type, setType] = useState<"EXPENSE" | "INCOME">("EXPENSE");
   const { isPending, mutate } = useAddTransaction();
   const { register, handleSubmit, setValue, watch, reset } = useForm();
-  const onSubmit = async(data: any) => {
-    console.log("expense xata is ", data);
-    
+  const onSubmit = async (data: any) => {
     await mutate({
       ...data,
       type: type,
@@ -48,7 +49,9 @@ export function ExpenseFormUI() {
     <div className="px-6 py-6">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-xl font-semibold">Add Transaction</h1>
+        <h1 className="text-xl font-semibold">
+          {mode == "Add" ? "Add Transaction" : "Edit Transaction"}
+        </h1>
         <p className="text-sm text-gray-500">Track your expenses and income</p>
       </div>
 
@@ -138,7 +141,13 @@ export function ExpenseFormUI() {
               disabled={isPending}
               type="submit"
             >
-              {isPending ? "Adding..." : "Add Transaction"}
+              {mode == "Add"
+                ? isPending
+                  ? "Adding..."
+                  : "Add Transaction"
+                : isPending
+                  ? "Updating..."
+                  : "Edit Transaction"}
             </Button>
           </CardContent>
         </Card>
