@@ -2,7 +2,7 @@ import { ExpenseFormUI } from '@/module/home/components/addExpense/addExpensePag
 
 function page() {
   return (
-    <ExpenseFormUI/>
+    <ExpenseFormUI mode={"Add"}/>
   )
 }
 
