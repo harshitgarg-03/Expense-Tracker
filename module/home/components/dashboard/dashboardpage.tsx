@@ -9,6 +9,7 @@ import { useTransaction } from '../../hooks/useTransaction';
 
 export function DashboardPage() {
   const { balance, monthlyData, transactions, isLoading } = useTransaction();
+  // console.log("txns ", transactions);
   
   return (
     <motion.div
@@ -45,7 +46,7 @@ export function DashboardPage() {
       
       {/* Chart and Recent Transactions */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <SpendingChart data={monthlyData} isLoading={isLoading} />
+        <SpendingChart data={monthlyData} balance={balance} isLoading={isLoading} />
         <RecentTransactions transactions={transactions} isLoading={isLoading} />
       </div>
     </motion.div>

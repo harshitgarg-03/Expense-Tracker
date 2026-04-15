@@ -6,6 +6,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { SpendingChartProps } from '../../types';
 
 export function SpendingChart({ data, isLoading }: SpendingChartProps) {
+  // console.log("data is ", data);
+  
   if (isLoading) {
     return (
       <Card>
@@ -26,7 +28,7 @@ export function SpendingChart({ data, isLoading }: SpendingChartProps) {
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={320}>
-          <BarChart data={data}>
+          <BarChart data={data}  >
             <CartesianGrid strokeDasharray="3 3" className="stroke-gray-200 dark:stroke-gray-800" />
             <XAxis 
               dataKey="month" 
