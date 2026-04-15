@@ -22,6 +22,7 @@ export interface RecentTransactionsProps {
 export interface SpendingChartProps {
   data: { month?: string; income?: number; expense?: number; amount?: number }[];
   isLoading?: boolean;
+  balance: {total: number; income: number; expense: number};
 }
 
 export interface TransactionInput {
