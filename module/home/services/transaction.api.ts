@@ -38,15 +38,13 @@ export const postTransaction = async (
     throw error;
   }
 };
-           
+
 export const deleteTransaction = async (id: string) => {
   try {
     const res = await fetch(`api/transaction/${id}`, {
       method: "DELETE",
     });
 
-    // console.log("delete res is ", res);
-    
     if (!res.ok) {
       throw new Error("error in deleting a transaction ");
     }
@@ -54,5 +52,30 @@ export const deleteTransaction = async (id: string) => {
     return await res.json();
   } catch (error) {
     throw `error in deleting a transaction ${error}`;
+  }
+};
+
+export const updateTransaction = async (
+  payload: Transaction,
+  id: string,
+): Promise<Transaction> => {
+  try {
+    const res = await fetch(`api/transaction/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error("failed to update transaction ");
+    }
+
+    const result = await res.json();
+    return result;
+  } catch (error) {
+    console.error("Update transaction failed ", error);
+    throw error;
   }
 };
