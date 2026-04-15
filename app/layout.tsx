@@ -4,6 +4,7 @@ import "./globals.css";
 import QueryProvider from "@/components/provider/QueryProvider";
 import { DashboardClient } from "./useClientcall";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "next-themes";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,12 +51,13 @@ export default function RootLayout({
           <div className="absolute right-0 top-1/3 h-100 w-100 rounded-full bg-blue-500/10 blur-3xl" />
         </div>
 
-        <QueryProvider>
-          <InitAuth />
-          {/* Main Content */}
-          <main className="flex-1 w-full">
-            <div
-              className="
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem >
+          <QueryProvider>
+            <InitAuth />
+            {/* Main Content */}
+            <main className="flex-1 w-full">
+              <div
+                className="
               
               bg-white/80 dark:bg-gray-900/70
               backdrop-blur-xl
@@ -64,18 +66,18 @@ export default function RootLayout({
               transition-all duration-300
               w-full rounded-2xl
             "
-            >
-              {children}
-            </div>
-          </main>
-        </QueryProvider>
-
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            className: "bg-gray-900 text-white border border-gray-700",
-          }}
-        />
+              >
+                {children}
+              </div>
+            </main>
+          </QueryProvider>
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              className: "bg-gray-900 text-white border border-gray-700",
+            }}
+          />
+        </ThemeProvider>
       </body>
     </html>
   );
