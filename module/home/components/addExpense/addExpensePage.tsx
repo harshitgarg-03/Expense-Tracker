@@ -14,7 +14,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { TransactionInput } from "../../types";
+import { ExpenseUIFormProps, TransactionInput } from "../../types";
 
 export const categories = [
   "Food",
@@ -28,10 +28,8 @@ export const categories = [
   "Other",
 ];
 
-type modeenum = {
-  mode: "Edit" | "Add";
-};
-export function ExpenseFormUI({ mode }: modeenum) {
+export function ExpenseFormUI({ mode }: ExpenseUIFormProps) {
+  
   const [type, setType] = useState<"EXPENSE" | "INCOME">("EXPENSE");
   const { isPending, mutate } = useAddTransaction();
   const { register, handleSubmit, setValue, watch, reset } = useForm();
