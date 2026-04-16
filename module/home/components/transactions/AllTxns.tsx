@@ -39,12 +39,8 @@ export function TransactionTableUI() {
   return (
     <div className="space-y-6">
       {/* {open &&  */}
-        <Dialog open={open}  onOpenChange={setopen} >
-          <DialogTrigger>
-            <button>Edit Transaction</button>
-          </DialogTrigger>
-
-          <DialogContent className="w-7xl">
+        <Dialog open={open} onOpenChange={setopen} >
+          <DialogContent className="max-w-xl! w-full ">
             <ExpenseFormUI mode="Edit" />
           </DialogContent>
         </Dialog>
