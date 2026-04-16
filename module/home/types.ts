@@ -81,3 +81,7 @@ export interface BalanceCardProps {
   type: 'balance' | 'income' | 'expense';
   isLoading?: boolean;
 }
+
+export interface ExpenseUIFormProps {
+  mode: "Add" | "Edit"
+}
