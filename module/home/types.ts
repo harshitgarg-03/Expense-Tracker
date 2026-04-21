@@ -51,7 +51,7 @@ export interface Transaction {
   category: Category;
   type: 'INCOME' | 'EXPENSE';
   date: Date;
-  note?: String;
+  note?: string;
   userId?: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -84,4 +84,5 @@ export interface BalanceCardProps {
 
 export interface ExpenseUIFormProps {
   mode: "Add" | "Edit"
+  EditTxn?: Transaction
 }
