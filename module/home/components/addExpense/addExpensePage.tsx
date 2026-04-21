@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,7 +14,8 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { ExpenseUIFormProps, TransactionInput } from "../../types";
+import { ExpenseUIFormProps, Transaction, TransactionInput } from "../../types";
+import { useEditTransaction } from "../../hooks/useEditTransaction";
 
 export const categories = [
   "Food",
@@ -28,20 +29,51 @@ export const categories = [
   "Other",
 ];
 
-export function ExpenseFormUI({ mode }: ExpenseUIFormProps) {
-  
+export function ExpenseFormUI({ mode, EditTxn }: ExpenseUIFormProps) {
+
   const [type, setType] = useState<"EXPENSE" | "INCOME">("EXPENSE");
-  const { isPending, mutate } = useAddTransaction();
+  const Addtxn = useAddTransaction();
+  const Edittxns = useEditTransaction();
   const { register, handleSubmit, setValue, watch, reset } = useForm();
   const onSubmit = async (data: any) => {
-    await mutate({
+
+   const payload = {
       ...data,
       type: type,
       amount: Number(data.amount),
       date: new Date(data.date),
-    });
+    };
+// console.log("payload is ", payload);
+
+    if(mode == "Add"){
+      await Addtxn.mutateAsync(payload);
+    } else {
+      await Edittxns.mutateAsync({
+      id: EditTxn?.id,
+      payload: {
+        title: payload.title,
+        amount: payload.amount,
+        category: payload.category,
+        type: payload.type,
+        date: payload.date
+      }
+      })
+    }
     reset();
   };
+
+  useEffect(() => {
+    if (mode == "Edit" && EditTxn) {
+      reset({
+        title: EditTxn.title,
+        amount: EditTxn.amount,
+        date: new Date(EditTxn.date).toISOString().split("T")[0],
+      });
+      
+      setValue("category", EditTxn.category);
+      setType(EditTxn.type);
+    }
+  }, [EditTxn, mode, reset, setValue]);
 
   return (
     <div className="px-6 py-6">
@@ -63,7 +95,10 @@ export function ExpenseFormUI({ mode }: ExpenseUIFormProps) {
 
               <div className="flex bg-gray-100 dark:bg-gray-900 rounded-md p-1">
                 <button
-                  onClick={() => setType("EXPENSE")}
+                  onClick={() => {
+                    setType("EXPENSE");
+                    setValue("type", "EXPENSE");
+                  }}
                   className={`px-3 py-1 text-xs rounded-md transition ${
                     type === "EXPENSE"
                       ? "bg-white dark:bg-gray-800 shadow text-black dark:text-white"
@@ -74,7 +109,10 @@ export function ExpenseFormUI({ mode }: ExpenseUIFormProps) {
                 </button>
 
                 <button
-                  onClick={() => setType("INCOME")}
+                  onClick={() => {
+                    setType("INCOME");
+                    setValue("type", "INCOME");
+                  }}
                   className={`px-3 py-1 text-xs rounded-md transition ${
                     type === "INCOME"
                       ? "bg-white dark:bg-gray-800 shadow text-black dark:text-white"
@@ -111,6 +149,7 @@ export function ExpenseFormUI({ mode }: ExpenseUIFormProps) {
               <div>
                 <Label className="text-sm mb-1 block">Category</Label>
                 <Select
+                  value={watch("category") || ""}
                   onValueChange={(value: string) => setValue("category", value)}
                 >
                   <SelectTrigger className="h-9">
@@ -136,14 +175,14 @@ export function ExpenseFormUI({ mode }: ExpenseUIFormProps) {
             {/* Submit */}
             <Button
               className="w-full h-9 text-sm font-medium"
-              disabled={isPending}
+              disabled={(Addtxn || Edittxns).isPending}
               type="submit"
             >
               {mode == "Add"
-                ? isPending
+                ? (Addtxn || Edittxns).isPending
                   ? "Adding..."
                   : "Add Transaction"
-                : isPending
+                : (Addtxn || Edittxns).isPending
                   ? "Updating..."
                   : "Edit Transaction"}
             </Button>
