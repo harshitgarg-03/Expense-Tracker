@@ -56,9 +56,11 @@ export const deleteTransaction = async (id: string) => {
 };
 
 export const updateTransaction = async ({
-  payload,
   id,
+  payload,
 }: any): Promise<Transaction> => {
+  // console.log("id and payload ", id, payload);
+  
   try {
     const res = await fetch(`api/transaction/${id}`, {
       method: "PUT",
@@ -68,6 +70,8 @@ export const updateTransaction = async ({
       },
     });
 
+    console.log("edit res is ", res);
+    
     if (!res.ok) {
       throw new Error("failed to update transaction ");
     }
