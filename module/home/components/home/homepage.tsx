@@ -33,10 +33,10 @@ const staggerContainer = {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-linear-to-b from-background to-muted/20">
+    <div className="h-screen overflow-y-auto bg-linear-to-b from-background to-muted/20">
       {/* HERO */}
-      <section className="relative px-6 py-24 overflow-hidden">
-        <div className="absolute inset-0 -z-10">
+      <section className="relative px-6 py-24">
+        <div className="absolute inset-0 -z-10 pointer-events-none">
           <div className="absolute left-1/2 top-0 h-125 w-125 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
           <div className="absolute right-0 top-1/3 h-100 w-100 bg-blue-500/10 rounded-full blur-3xl" />
         </div>
