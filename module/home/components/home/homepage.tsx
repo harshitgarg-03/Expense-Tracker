@@ -200,7 +200,7 @@ export default function HomePage() {
               <div className="space-y-4">
                 {benefits.map((benefit, index) => (
                   <div key={index} className="flex gap-4">
-                    <div className="flex-shrink-0">
+                    <div className="shrink-0">
                       <CheckCircle2 className="h-6 w-6 text-green-500" />
                     </div>
                     <div>
