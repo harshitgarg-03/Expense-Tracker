@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -34,7 +34,6 @@ const staggerContainer = {
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-linear-to-b from-background to-muted/20">
-
       {/* HERO */}
       <section className="relative px-6 py-24 overflow-hidden">
         <div className="absolute inset-0 -z-10">
@@ -62,7 +61,8 @@ export default function HomePage() {
             </h1>
 
             <p className="max-w-2xl mx-auto text-muted-foreground mb-8 text-lg">
-              Track expenses, analyze spending patterns, and achieve your goals with powerful tools.
+              Track expenses, analyze spending patterns, and achieve your goals
+              with powerful tools.
             </p>
 
             <div className="flex gap-4 justify-center flex-wrap">
@@ -82,7 +82,6 @@ export default function HomePage() {
           <motion.div variants={fadeInUp} className="mt-16">
             <div className="rounded-xl border bg-background p-6 shadow-2xl">
               <div className="grid md:grid-cols-3 gap-4">
-
                 <Card>
                   <CardContent className="pt-6">
                     <Wallet className="text-primary mb-2" />
@@ -106,7 +105,6 @@ export default function HomePage() {
                     <h3 className="text-red-500 font-bold">$4,150</h3>
                   </CardContent>
                 </Card>
-
               </div>
             </div>
           </motion.div>
@@ -115,30 +113,30 @@ export default function HomePage() {
 
       {/* FEATURES */}
       <section className="px-6 py-20">
-  <motion.div
-    initial="hidden"
-    whileInView="visible"
-    viewport={{ once: true, margin: "-100px" }}
-    variants={staggerContainer}
-    className="max-w-7xl mx-auto"
-  >
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+          className="max-w-7xl mx-auto"
+        >
+          {/* Heading */}
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+              Everything You Need to Manage Your Money
+            </h2>
+            <p className="text-muted-foreground text-lg">
+              Powerful features designed to help you understand and control your
+              spending
+            </p>
+          </div>
 
-    {/* Heading */}
-    <div className="text-center max-w-2xl mx-auto mb-14">
-      <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
-        Everything You Need to Manage Your Money
-      </h2>
-      <p className="text-muted-foreground text-lg">
-        Powerful features designed to help you understand and control your spending
-      </p>
-    </div>
-
-    {/* Grid */}
-    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-      {features.map((f, i) => (
-        <motion.div key={i} variants={fadeInUp}>
-          <Card
-            className="
+          {/* Grid */}
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {features.map((f, i) => (
+              <motion.div key={i} variants={fadeInUp}>
+                <Card
+                  className="
               h-full
               border border-gray-200/60 dark:border-gray-800/60
               bg-white/70 dark:bg-gray-900/60
@@ -146,32 +144,27 @@ export default function HomePage() {
               transition-all duration-300
               hover:-translate-y-2 hover:shadow-xl
             "
-          >
-            <CardContent className="pt-6 pb-6 px-6">
+                >
+                  <CardContent className="pt-6 pb-6 px-6">
+                    {/* Icon */}
+                    <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                      <f.icon className="h-6 w-6 text-primary" />
+                    </div>
 
-              {/* Icon */}
-              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                <f.icon className="h-6 w-6 text-primary" />
-              </div>
+                    {/* Title */}
+                    <h3 className="text-lg font-semibold mb-2">{f.title}</h3>
 
-              {/* Title */}
-              <h3 className="text-lg font-semibold mb-2">
-                {f.title}
-              </h3>
-
-              {/* Description */}
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {f.description}
-              </p>
-
-            </CardContent>
-          </Card>
+                    {/* Description */}
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {f.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
-      ))}
-    </div>
-
-  </motion.div>
-</section>
+      </section>
 
       {/* STATS */}
       <section className="px-6 py-20 bg-muted/50">
@@ -191,7 +184,7 @@ export default function HomePage() {
       </section>
 
       {/* BENEFITS */}
-       <section id="benefits" className="px-4 py-20 sm:px-6 lg:px-8">
+      <section id="benefits" className="px-4 py-20 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -212,7 +205,9 @@ export default function HomePage() {
                     </div>
                     <div>
                       <h3 className="font-semibold mb-1">{benefit.title}</h3>
-                      <p className="text-muted-foreground">{benefit.description}</p>
+                      <p className="text-muted-foreground">
+                        {benefit.description}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -229,7 +224,9 @@ export default function HomePage() {
                       </div>
                       <div>
                         <p className="font-medium">Groceries</p>
-                        <p className="text-sm text-muted-foreground">Today, 2:30 PM</p>
+                        <p className="text-sm text-muted-foreground">
+                          Today, 2:30 PM
+                        </p>
                       </div>
                     </div>
                     <p className="font-semibold text-red-500">-$125.50</p>
@@ -241,7 +238,9 @@ export default function HomePage() {
                       </div>
                       <div>
                         <p className="font-medium">Salary</p>
-                        <p className="text-sm text-muted-foreground">Yesterday</p>
+                        <p className="text-sm text-muted-foreground">
+                          Yesterday
+                        </p>
                       </div>
                     </div>
                     <p className="font-semibold text-green-500">+$3,500</p>
@@ -266,7 +265,7 @@ export default function HomePage() {
       </section>
 
       {/* FINAL CTA */}
-            <section id="about" className="px-4 py-20 sm:px-6 lg:px-8 bg-muted/50">
+      <section id="about" className="px-4 py-20 sm:px-6 lg:px-8 bg-muted/50">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -281,17 +280,20 @@ export default function HomePage() {
               </h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>
-                  Founded in 2024, ExpenseTracker was born from a simple idea: personal finance
-                  management should be effortless, intuitive, and accessible to everyone.
+                  Founded in 2024, ExpenseTracker was born from a simple idea:
+                  personal finance management should be effortless, intuitive,
+                  and accessible to everyone.
                 </p>
                 <p>
-                  Our mission is to empower individuals and families to take control of their
-                  financial lives through smart technology and beautiful design. We believe that
-                  understanding where your money goes is the first step toward financial freedom.
+                  Our mission is to empower individuals and families to take
+                  control of their financial lives through smart technology and
+                  beautiful design. We believe that understanding where your
+                  money goes is the first step toward financial freedom.
                 </p>
                 <p>
-                  Today, we're proud to serve over 50,000 users worldwide, helping them track
-                  millions of transactions and make better financial decisions every day.
+                  Today, we're proud to serve over 50,000 users worldwide,
+                  helping them track millions of transactions and make better
+                  financial decisions every day.
                 </p>
               </div>
             </motion.div>
@@ -303,22 +305,30 @@ export default function HomePage() {
                     <div className="text-center">
                       <Users className="h-8 w-8 text-primary mx-auto mb-2" />
                       <div className="text-2xl font-bold">50K+</div>
-                      <div className="text-sm text-muted-foreground">Active Users</div>
+                      <div className="text-sm text-muted-foreground">
+                        Active Users
+                      </div>
                     </div>
                     <div className="text-center">
                       <BarChart3 className="h-8 w-8 text-primary mx-auto mb-2" />
                       <div className="text-2xl font-bold">2M+</div>
-                      <div className="text-sm text-muted-foreground">Transactions</div>
+                      <div className="text-sm text-muted-foreground">
+                        Transactions
+                      </div>
                     </div>
                     <div className="text-center">
                       <Shield className="h-8 w-8 text-primary mx-auto mb-2" />
                       <div className="text-2xl font-bold">100%</div>
-                      <div className="text-sm text-muted-foreground">Secure</div>
+                      <div className="text-sm text-muted-foreground">
+                        Secure
+                      </div>
                     </div>
                     <div className="text-center">
                       <Clock className="h-8 w-8 text-primary mx-auto mb-2" />
                       <div className="text-2xl font-bold">24/7</div>
-                      <div className="text-sm text-muted-foreground">Support</div>
+                      <div className="text-sm text-muted-foreground">
+                        Support
+                      </div>
                     </div>
                   </div>
                 </CardContent>
@@ -338,14 +348,14 @@ export default function HomePage() {
           className="mx-auto max-w-4xl"
         >
           <Card className="relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-blue-500/10" />
+            <div className="absolute inset-0 bg-linear-to-r from-primary/10 to-blue-500/10" />
             <CardContent className="relative pt-12 pb-12 text-center">
               <h2 className="text-3xl font-bold sm:text-4xl mb-4">
                 Ready to Take Control?
               </h2>
               <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Join thousands of users who are already managing their finances smarter.
-                Start your journey to financial freedom today.
+                Join thousands of users who are already managing their finances
+                smarter. Start your journey to financial freedom today.
               </p>
               <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
                 <Button asChild size="lg">
@@ -369,33 +379,39 @@ export default function HomePage() {
 const features = [
   {
     icon: BarChart3,
-    title: 'Visual Analytics',
-    description: 'Beautiful charts and graphs that help you understand your spending patterns at a glance.',
+    title: "Visual Analytics",
+    description:
+      "Beautiful charts and graphs that help you understand your spending patterns at a glance.",
   },
   {
     icon: PieChart,
-    title: 'Category Tracking',
-    description: 'Organize expenses by categories and see exactly where your money goes each month.',
+    title: "Category Tracking",
+    description:
+      "Organize expenses by categories and see exactly where your money goes each month.",
   },
   {
     icon: Wallet,
-    title: 'Budget Management',
-    description: 'Set budgets for different categories and get alerts when you\'re close to your limits.',
+    title: "Budget Management",
+    description:
+      "Set budgets for different categories and get alerts when you're close to your limits.",
   },
   {
     icon: TrendingUp,
-    title: 'Income Tracking',
-    description: 'Track all your income sources and monitor your cash flow with ease.',
+    title: "Income Tracking",
+    description:
+      "Track all your income sources and monitor your cash flow with ease.",
   },
   {
     icon: Shield,
-    title: 'Secure & Private',
-    description: 'Your financial data is encrypted and protected with industry-standard security.',
+    title: "Secure & Private",
+    description:
+      "Your financial data is encrypted and protected with industry-standard security.",
   },
   {
     icon: Zap,
-    title: 'Lightning Fast',
-    description: 'Add transactions in seconds with our intuitive and streamlined interface.',
+    title: "Lightning Fast",
+    description:
+      "Add transactions in seconds with our intuitive and streamlined interface.",
   },
 ];
 
