@@ -112,7 +112,7 @@ export default function HomePage() {
       </section>
 
       {/* FEATURES */}
-      <section className="px-6 py-20">
+      <section id="features" className="px-6 py-20">
         <motion.div
           initial="hidden"
           whileInView="visible"
