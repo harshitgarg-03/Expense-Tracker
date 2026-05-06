@@ -13,26 +13,8 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Transaction } from "../../types";
+import { AIInsightsProps, Insight, Transaction } from "../../types";
 
-
-interface AIInsightsProps {
-  transactions: Transaction[];
-  balance: {
-    total: number;
-    income: number;
-    expenses: number;
-  };
-  isLoading?: boolean;
-}
-
-interface Insight {
-  type: "danger" | "warning" | "success" | "info";
-  icon: React.ReactNode;
-  title: string;
-  message: string;
-  category?: string;
-}
 
 function analyzeSpending(
   transactions: Transaction[],
