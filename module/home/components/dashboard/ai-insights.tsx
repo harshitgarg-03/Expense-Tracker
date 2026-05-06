@@ -21,7 +21,7 @@ function analyzeSpending(
   balance: {
     total: number;
     income: number;
-    expenses: number;
+    expense: number;
   }
 ): Insight[] {
   const insights: Insight[] = [];

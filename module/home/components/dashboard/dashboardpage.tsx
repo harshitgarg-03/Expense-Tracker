@@ -6,6 +6,7 @@ import { BalanceCard } from './balancard';
 import { SpendingChart } from './spendChat';
 import { RecentTransactions } from './recenttrx';
 import { useTransaction } from '../../hooks/useTransaction';
+import AIInsights from './ai-insights';
 
 export function DashboardPage() {
   const { balance, monthlyData, transactions, isLoading } = useTransaction();
@@ -44,6 +45,9 @@ export function DashboardPage() {
         />
       </div>
       
+      <div>
+        <AIInsights transactions={transactions}  balance={balance} isLoading={isLoading} />
+      </div>
       {/* Chart and Recent Transactions */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <SpendingChart data={monthlyData} balance={balance} isLoading={isLoading} />
