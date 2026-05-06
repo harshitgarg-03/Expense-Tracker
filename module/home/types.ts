@@ -86,3 +86,21 @@ export interface ExpenseUIFormProps {
   mode: "Add" | "Edit"
   EditTxn?: Transaction
 }
+
+
+export interface Insight {
+  type: "danger" | "warning" | "success" | "info";
+  icon: React.ReactNode;
+  title: string;
+  message: string;
+  category?: string;
+}
+export interface AIInsightsProps {
+  transactions: Transaction[];
+  balance: {
+    total: number;
+    income: number;
+    expenses: number;
+  };
+  isLoading?: boolean;
+}
