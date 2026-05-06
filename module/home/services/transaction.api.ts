@@ -70,7 +70,7 @@ export const updateTransaction = async ({
       },
     });
 
-    console.log("edit res is ", res);
+    // console.log("edit res is ", res);
     
     if (!res.ok) {
       throw new Error("failed to update transaction ");
