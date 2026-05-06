@@ -13,15 +13,8 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Transaction } from "../../types";
 
-interface Transaction {
-  id: string;
-  title: string;
-  amount: number;
-  category: string;
-  type: "EXPENSE" | "INCOME";
-  date: string;
-}
 
 interface AIInsightsProps {
   transactions: Transaction[];
