@@ -5,6 +5,7 @@ import QueryProvider from "@/components/provider/QueryProvider";
 import { DashboardClient } from "./useClientcall";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "next-themes";
+import { Footer } from "@/components/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,7 +39,7 @@ export default function RootLayout({
     >
       <body
         className="
-        min-h-screen flex flex-col m-0 p-0
+        min-h-screen flex flex-col overflow-x-hidden m-0 p-0
         bg-linear-to-br from-gray-50 via-white to-gray-100
         dark:from-gray-950 dark:via-gray-900 dark:to-gray-950
         text-gray-900 dark:text-gray-100
@@ -46,19 +47,18 @@ export default function RootLayout({
       "
       >
         {/* Background Glow */}
-        <div className="fixed inset-0 -z-10 overflow-hidden">
+        <div className="fixed inset-0 -z-10 pointer-events-none">
           <div className="absolute left-1/2 top-50 h-125 w-125-translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
           <div className="absolute right-0 top-1/3 h-100 w-100 rounded-full bg-blue-500/10 blur-3xl" />
         </div>
 
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem >
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <QueryProvider>
             <InitAuth />
             {/* Main Content */}
-            <main className="flex-1 w-full">
-              <div
+            <main className="flex-1 w-full overflow-y-auto">
+              {/* <div
                 className="
-              
               bg-white/80 dark:bg-gray-900/70
               backdrop-blur-xl
               border border-gray-200/60 dark:border-gray-800/60
@@ -66,9 +66,9 @@ export default function RootLayout({
               transition-all duration-300
               w-full rounded-2xl
             "
-              >
+              > */}
                 {children}
-              </div>
+              {/* </div> */}
             </main>
           </QueryProvider>
           <Toaster
