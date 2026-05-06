@@ -142,7 +142,7 @@ export function Footer() {
               © {currentYear} ExpenseTracker. All rights reserved.
             </p>
             <p className="text-sm text-muted-foreground flex items-center gap-1">
-              Made with <Heart className="h-4 w-4 fill-red-500 text-red-500" /> by the ExpenseTracker team
+              <Heart className="h-4 w-4 fill-red-500 text-red-500" /> Made by Harshit Garg 
             </p>
           </div>
         </div>
