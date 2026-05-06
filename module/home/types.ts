@@ -100,7 +100,7 @@ export interface AIInsightsProps {
   balance: {
     total: number;
     income: number;
-    expenses: number;
+    expense: number;
   };
   isLoading?: boolean;
 }
