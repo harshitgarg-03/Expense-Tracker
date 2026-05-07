@@ -22,7 +22,7 @@ export function DashboardPage() {
         title="Dashboard" 
         subtitle="Overview of your financial activities"
       />
-      
+       <div></div>
       {/* Balance Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <BalanceCard
