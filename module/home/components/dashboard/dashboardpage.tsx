@@ -45,7 +45,7 @@ export function DashboardPage() {
       </div>
 
       {/* Ai-insigth section */}
-      <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br from-white/[0.04] to-white/[0.02] backdrop-blur-2xl">
+      <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-linear-to-br from-white/4 to-white/2 backdrop-blur-2xl">
         {/* Glow Effects */}
         <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-violet-500/20 blur-3xl" />
         <div className="absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-cyan-500/20 blur-3xl" />
