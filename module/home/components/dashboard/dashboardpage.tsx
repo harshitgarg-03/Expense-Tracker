@@ -10,7 +10,6 @@ import AIInsights from "./ai-insights";
 
 export function DashboardPage() {
   const { balance, monthlyData, transactions, isLoading } = useTransaction();
-  // console.log("txns ", transactions);
 
   return (
     <motion.div
