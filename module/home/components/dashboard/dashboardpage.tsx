@@ -7,7 +7,7 @@ import { SpendingChart } from "./spendChat";
 import { RecentTransactions } from "./recenttrx";
 import { useTransaction } from "../../hooks/useTransaction";
 import AIInsights from "./ai-insights";
-          
+           
 export function DashboardPage() {
   const { balance, monthlyData, transactions, isLoading } = useTransaction();
 
