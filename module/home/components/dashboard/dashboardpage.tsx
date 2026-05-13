@@ -10,7 +10,7 @@ import AIInsights from "./ai-insights";
             
 export function DashboardPage() {
   const { balance, monthlyData, transactions, isLoading } = useTransaction();
-   
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
