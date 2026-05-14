@@ -22,7 +22,7 @@ function analyzeSpending(
     total: number;
     income: number;
     expense: number;
-  }     
+  }      
 ): Insight[] {
   const insights: Insight[] = [];
 
