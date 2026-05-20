@@ -11,7 +11,7 @@ import AIInsights from "./ai-insights";
 export function DashboardPage() {
   const { balance, monthlyData, transactions, isLoading } = useTransaction();
   
-  return (  
+  return (   
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
