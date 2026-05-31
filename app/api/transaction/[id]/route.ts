@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { log } from "console";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
@@ -52,7 +53,6 @@ export async function PUT(
 
   try {
     const data = await request.json();
-
     const transaction = await prisma.transaction.update({
       where: {
         id: id,

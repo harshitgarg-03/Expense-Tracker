@@ -52,10 +52,10 @@ export function DashboardPage() {
         {/* Header */}
         <div className="relative z-10 flex items-center justify-between border-b border-white/10 px-6 py-5">
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-white">
+            <h2 className="text-xl font-bold tracking-tight text-black dark:text-white">
               AI Financial Insights
             </h2>
-            <p className="mt-1 text-sm text-zinc-400">
+            <p className="mt-1 text-sm text-black dark:text-gray-400">
               Smart analysis based on your spending patterns
             </p>
           </div>

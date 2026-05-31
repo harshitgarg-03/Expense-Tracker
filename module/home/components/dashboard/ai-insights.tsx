@@ -194,7 +194,7 @@ export default function AIInsights({
     return (
       <Card>
         <CardHeader>
-          <CardTitle>AI Financial Insights</CardTitle>
+          <CardTitle >AI Financial Insights</CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-4">
@@ -210,7 +210,7 @@ export default function AIInsights({
     <Card className="shadow-sm border">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Lightbulb className="h-5 w-5 text-purple-500" />
+          <Lightbulb className="h-5 w-5 text-purple-800" />
           AI Financial Insights
 
           <Badge variant="secondary" className="ml-auto">
