@@ -15,6 +15,15 @@ import {
   DollarSign,
   Clock,
 } from "lucide-react";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -31,9 +40,17 @@ const staggerContainer = {
   },
 };
 
+const chartData = [
+  { month: "Jan", income: 5000, expenses: 3200 },
+  { month: "Feb", income: 6200, expenses: 3800 },
+  { month: "Mar", income: 5800, expenses: 4100 },
+  { month: "Apr", income: 7200, expenses: 3900 },
+  { month: "May", income: 8200, expenses: 4150 },
+];
+
 export default function HomePage() {
   return (
-    <div className="h-screen overflow-y-auto bg-linear-to-b from-background to-muted/20">
+    <div className="w-full bg-linear-to-b from-background to-muted/20">
       {/* HERO */}
       <section className="relative px-6 py-24">
         <div className="absolute inset-0 -z-10 pointer-events-none">
@@ -79,32 +96,94 @@ export default function HomePage() {
           </motion.div>
 
           {/* Dashboard Preview */}
-          <motion.div variants={fadeInUp} className="mt-16">
-            <div className="rounded-xl border bg-background p-6 shadow-2xl">
-              <div className="grid md:grid-cols-3 gap-4">
-                <Card>
+          <motion.div variants={fadeInUp} className="mt-16 max-w-5xl mx-auto">
+            <div className="rounded-2xl border border-gray-200/85 dark:border-gray-800/85 bg-white/50 dark:bg-gray-900/50 backdrop-blur-xl p-6 shadow-2xl relative overflow-hidden text-left">
+              <div className="absolute inset-0 -z-10 bg-linear-to-br from-primary/5 via-transparent to-blue-500/5" />
+              
+              {/* Cards grid */}
+              <div className="grid md:grid-cols-3 gap-4 mb-6">
+                <Card className="border border-gray-200/60 dark:border-gray-800/60 bg-white/80 dark:bg-gray-900/80 shadow-md">
                   <CardContent className="pt-6">
-                    <Wallet className="text-primary mb-2" />
-                    <p>Total Balance</p>
-                    <h3 className="text-xl font-bold">$12,450</h3>
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                        <Wallet className="h-5 w-5" />
+                      </div>
+                      <p className="text-sm font-medium text-muted-foreground">Total Balance</p>
+                    </div>
+                    <h3 className="text-2xl font-bold">$12,450</h3>
                   </CardContent>
                 </Card>
 
-                <Card>
+                <Card className="border border-gray-200/60 dark:border-gray-800/60 bg-white/80 dark:bg-gray-900/80 shadow-md">
                   <CardContent className="pt-6">
-                    <TrendingUp className="text-green-500 mb-2" />
-                    <p>Income</p>
-                    <h3 className="text-green-500 font-bold">$8,200</h3>
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="p-2 rounded-lg bg-green-500/10 text-green-500">
+                        <TrendingUp className="h-5 w-5" />
+                      </div>
+                      <p className="text-sm font-medium text-muted-foreground">Income</p>
+                    </div>
+                    <h3 className="text-2xl font-bold text-green-600 dark:text-green-400">$8,200</h3>
                   </CardContent>
                 </Card>
 
-                <Card>
+                <Card className="border border-gray-200/60 dark:border-gray-800/60 bg-white/80 dark:bg-gray-900/80 shadow-md">
                   <CardContent className="pt-6">
-                    <BarChart3 className="text-red-500 mb-2" />
-                    <p>Expenses</p>
-                    <h3 className="text-red-500 font-bold">$4,150</h3>
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="p-2 rounded-lg bg-red-500/10 text-red-500">
+                        <BarChart3 className="h-5 w-5" />
+                      </div>
+                      <p className="text-sm font-medium text-muted-foreground">Expenses</p>
+                    </div>
+                    <h3 className="text-2xl font-bold text-red-600 dark:text-red-400">$4,150</h3>
                   </CardContent>
                 </Card>
+              </div>
+
+              {/* Chart section */}
+              <div className="border border-gray-200/60 dark:border-gray-800/60 bg-white/80 dark:bg-gray-900/80 rounded-xl p-5 shadow-inner">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h4 className="text-base font-semibold">Monthly Spending Flow</h4>
+                    <p className="text-xs text-muted-foreground">Recent income and expenses trend</p>
+                  </div>
+                  <div className="flex gap-4 text-xs font-medium">
+                    <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-green-500"></span>Income</span>
+                    <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-red-500"></span>Expenses</span>
+                  </div>
+                </div>
+
+                <div className="h-64 w-full">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                      <defs>
+                        <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#22c55e" stopOpacity={0.2}/>
+                          <stop offset="95%" stopColor="#22c55e" stopOpacity={0}/>
+                        </linearGradient>
+                        <linearGradient id="colorExpenses" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#ef4444" stopOpacity={0.2}/>
+                          <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-gray-150 dark:stroke-gray-800" horizontal={true} vertical={false} />
+                      <XAxis dataKey="month" className="text-[10px] text-muted-foreground" tickLine={false} axisLine={false} />
+                      <YAxis className="text-[10px] text-muted-foreground" tickLine={false} axisLine={false} />
+                      <Tooltip 
+                        contentStyle={{ 
+                          backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                          border: '1px solid #e2e8f0',
+                          borderRadius: '8px',
+                          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+                          fontSize: '12px'
+                        }}
+                        itemStyle={{ padding: '2px 0' }}
+                        labelStyle={{ fontWeight: '600', marginBottom: '4px', color: '#1e293b' }}
+                      />
+                      <Area type="monotone" dataKey="income" stroke="#22c55e" strokeWidth={2} fillOpacity={1} fill="url(#colorIncome)" />
+                      <Area type="monotone" dataKey="expenses" stroke="#ef4444" strokeWidth={2} fillOpacity={1} fill="url(#colorExpenses)" />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -112,7 +191,7 @@ export default function HomePage() {
       </section>
 
       {/* FEATURES */}
-      <section id="features" className="px-6 py-20">
+      <section id="features" className="px-6 py-10">
         <motion.div
           initial="hidden"
           whileInView="visible"
