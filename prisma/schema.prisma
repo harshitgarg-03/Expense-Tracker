@@ -7,6 +7,25 @@ datasource db {
   provider = "postgresql"
 }
 
+model ChatHistory {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  role      String
+  content   String
+  createdAt DateTime @default(now())
+
+  @@map("chat_history")
+}
+
+model UserPreference {
+  id              String @id @default(uuid()) @db.Uuid
+  userId          String @db.Uuid
+  preferenceKey   String
+  preferenceValue String
+
+  @@map("user_preferences")
+}
+
 model Transaction {
   id        String          @id @default(uuid())
   title     String
