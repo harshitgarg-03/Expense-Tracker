@@ -19,6 +19,7 @@ import React, { useState } from "react";
 import { useLogin } from "../../hooks/useLogin";
 import { useForm } from "react-hook-form";
 import { loginSchema } from "../../schema";
+import { authClient } from "@/lib/auth-client";
 
 export function LoginPage() {
   const { isPending, mutate } = useLogin();
@@ -35,6 +36,20 @@ export function LoginPage() {
 
     mutate(parsed.data!);
   };
+
+  const handleGoogleSignIN = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/dashboard"
+    })
+  }
+  const handleGithubSignIN = async () => {
+    await authClient.signIn.social({
+      provider: "github",
+      callbackURL: "/dashboard"
+    })
+  }
+  
   return (
     <div className="w-full min-h-[90vh] flex items-center justify-center bg-white dark:bg-gray-950">
       <div className="w-full max-w-md animate-in fade-in zoom-in-95 duration-500">
@@ -112,6 +127,7 @@ export function LoginPage() {
               <Button
                 variant="outline"
                 className="hover:bg-gray-100 dark:hover:bg-gray-800 transition-all hover:scale-[1.02]"
+                onClick={handleGoogleSignIN}
               >
                 <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
                   {/* same svg */}
@@ -122,6 +138,7 @@ export function LoginPage() {
               <Button
                 variant="outline"
                 className="hover:bg-gray-100 dark:hover:bg-gray-800 transition-all hover:scale-[1.02]"
+                onClick={handleGithubSignIN}
               >
                 <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
                   {/* same svg */}

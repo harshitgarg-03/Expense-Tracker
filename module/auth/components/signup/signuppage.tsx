@@ -18,6 +18,7 @@ import { Wallet } from "lucide-react";
 import { toast } from "sonner";
 import { useSignup } from "../../hooks/useSignup";
 import { signupSchema } from "../../schema";
+import { authClient } from "@/lib/auth-client";
 
 export function SignUpPage() {
   const { mutate, isPending } = useSignup();
@@ -39,6 +40,19 @@ export function SignUpPage() {
 
     mutate(parsed.data!);
   };
+
+  const handleGoogleSignIN = async () => {
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/dashboard"
+      })
+    }
+    const handleGithubSignIN = async () => {
+      await authClient.signIn.social({
+        provider: "github",
+        callbackURL: "/dashboard"
+      })
+    }
 
   return (
     <div className="w-full min-h-[90vh] flex items-center justify-center">
@@ -140,6 +154,7 @@ export function SignUpPage() {
                 variant="outline"
                 disabled={isPending}
                 className="hover:bg-gray-100 dark:hover:bg-gray-800 transition-all hover:scale-[1.02]"
+                onClick={handleGoogleSignIN}
               >
                 <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
                   {/* svg same */}
@@ -151,6 +166,7 @@ export function SignUpPage() {
                 variant="outline"
                 disabled={isPending}
                 className="hover:bg-gray-100 dark:hover:bg-gray-800 transition-all hover:scale-[1.02]"
+                onClick={handleGithubSignIN}
               >
                 <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
                   {/* svg same */}
