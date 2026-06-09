@@ -10,7 +10,7 @@ import AIInsights from "./ai-insights";
             
 export function DashboardPage() {
   const { balance, monthlyData, transactions, isLoading } = useTransaction();
-  console.log("total usetransaction data is " + balance + " " + monthlyData + " " + transactions + " " + isLoading );
+  // console.log("total usetransaction data is " + balance + " " + monthlyData + " " + transactions + " " + isLoading );
   
   return (       
     <motion.div
