@@ -30,58 +30,54 @@ export const categories = [
 ];
 
 export function ExpenseFormUI({ mode, EditTxn }: ExpenseUIFormProps) {
-
   const [type, setType] = useState<"EXPENSE" | "INCOME">("EXPENSE");
   const Addtxn = useAddTransaction();
   const Edittxns = useEditTransaction();
   const { register, handleSubmit, setValue, watch, reset } = useForm();
   const onSubmit = async (data: any) => {
-
-   const payload = {
+    const payload = {
       ...data,
       type: type,
       amount: Number(data.amount),
       date: new Date(data.date),
     };
-// console.log("payload is ", payload);
+    // console.log("payload is ", payload);
 
-    if(mode == "Add"){
+    if (mode == "Add") {
       await Addtxn.mutateAsync(payload);
     } else {
       await Edittxns.mutateAsync({
-      id: EditTxn?.id,
-      payload: {
-        title: payload.title,
-        amount: payload.amount,
-        category: payload.category,
-        type: payload.type,
-        date: payload.date
-      }
-      })
+        id: EditTxn?.id,
+        payload: {
+          title: payload.title,
+          amount: payload.amount,
+          category: payload.category,
+          type: payload.type,
+          date: payload.date,
+        },
+      });
     }
     reset();
   };
 
   useEffect(() => {
     if (mode == "Edit" && EditTxn) {
-      // console.log("editxn is ", EditTxn);
-      
+
       reset({
         title: EditTxn.title,
         amount: EditTxn.amount,
         date: new Date(EditTxn.date).toISOString().split("T")[0],
-        // category: EditTxn.category
+        category: EditTxn.category,
       });
-      setValue("category", EditTxn.category, {
-        shouldDirty: true,
-  shouldTouch: true,
-  shouldValidate: true,
-      });
+      // setValue("category", EditTxn.category, {
+      //   shouldDirty: true,
+      //   shouldTouch: true,
+      //   shouldValidate: true,
+      // });
       setType(EditTxn.type);
-      
     }
   }, [EditTxn, mode, reset, setValue]);
-
+  const category = watch("category");
   return (
     <div className="px-6 py-6">
       {/* Header */}
@@ -157,7 +153,7 @@ export function ExpenseFormUI({ mode, EditTxn }: ExpenseUIFormProps) {
               <div>
                 <Label className="text-sm mb-1 block">Category</Label>
                 <Select
-                  value={watch("category") || ""}
+                  value={category || ""}
                   onValueChange={(value: string) => setValue("category", value)}
                 >
                   <SelectTrigger className="h-9">
