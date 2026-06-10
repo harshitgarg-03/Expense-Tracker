@@ -48,7 +48,7 @@ export function SpendingChart({ data, isLoading }: SpendingChartProps) {
                 borderRadius: '8px',
               }}
               labelStyle={{ color: 'hsl(var(--foreground))' }}
-              cursor={{ fill: 'hsl(var(--muted))' }}
+              cursor={{ fill: "#6b7280", fillOpacity: 0.15 }}
             />
             <Legend wrapperStyle={{ paddingTop: '20px' }} />
             <Bar dataKey="income" fill="#10b981" radius={[8, 8, 0, 0]} name="Income" />

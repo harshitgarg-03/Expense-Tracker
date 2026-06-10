@@ -9,7 +9,7 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } },
 ) {
-  try {
+  try {    
     const txn = await params;
     const id = txn.id;
 

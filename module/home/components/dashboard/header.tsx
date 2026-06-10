@@ -18,7 +18,7 @@ export function Header({ title, subtitle }: HeaderProps) {
         variant="outline"
         size="icon"
         onClick={() => {
-          console.log("hii theme ");
+          // console.log("hii theme ");
 
           setTheme(theme === "dark" ? "light" : "dark");
         }}

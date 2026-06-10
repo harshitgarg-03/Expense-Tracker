@@ -64,14 +64,21 @@ export function ExpenseFormUI({ mode, EditTxn }: ExpenseUIFormProps) {
 
   useEffect(() => {
     if (mode == "Edit" && EditTxn) {
+      // console.log("editxn is ", EditTxn);
+      
       reset({
         title: EditTxn.title,
         amount: EditTxn.amount,
         date: new Date(EditTxn.date).toISOString().split("T")[0],
+        // category: EditTxn.category
       });
-      
-      setValue("category", EditTxn.category);
+      setValue("category", EditTxn.category, {
+        shouldDirty: true,
+  shouldTouch: true,
+  shouldValidate: true,
+      });
       setType(EditTxn.type);
+      
     }
   }, [EditTxn, mode, reset, setValue]);
 
@@ -143,6 +150,7 @@ export function ExpenseFormUI({ mode, EditTxn }: ExpenseUIFormProps) {
                   {...register("amount")}
                   className="h-9"
                   placeholder="0.00"
+                  min={1}
                 />
               </div>
 
