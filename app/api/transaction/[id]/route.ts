@@ -1,13 +1,12 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { log } from "console";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params:  Promise<{ id: string }>  },
 ) {
   try {    
     const txn = await params;
@@ -37,7 +36,7 @@ export async function DELETE(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const txn = await params;
   const id = txn.id;
