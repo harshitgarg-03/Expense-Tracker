@@ -13,9 +13,11 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      setUser(data.user);
-      toast.success("Login success 🎉🎉");
-      router.push("/dashboard");
+      if(data?.user){
+        setUser(data.user);
+        toast.success("Login success 🎉🎉");
+        router.push("/dashboard");
+      }
     },
     onError: (error: any) => {
       toast.error(error.message || "Login failed 👎");
