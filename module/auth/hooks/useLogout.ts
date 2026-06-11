@@ -13,7 +13,7 @@ export const useLogout = () => {
         onSuccess: () => {
             logout();
             toast.success("Logout success 🎉🎉")
-            navigate.push("/home")
+            navigate.push("/")
         },
 
         onError: (error) => {

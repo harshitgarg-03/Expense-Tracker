@@ -7,7 +7,7 @@ import { ThemeProvider } from "next-themes";
 import { Footer } from "@/components/footer";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import InitialAuth from "@/components/InitialAuth";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,7 +51,6 @@ export default async function RootLayout({
           <div className="absolute right-0 top-1/3 h-100 w-100 rounded-full bg-blue-500/10 blur-3xl" />
         </div>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <InitialAuth>
             <QueryProvider>
               {/* Main Content */}
               <main className="flex-1 w-full overflow-y-auto">
@@ -63,13 +62,12 @@ export default async function RootLayout({
               shadow-xl shadow-gray-200/40 dark:shadow-black/40
               transition-all duration-300
               w-full rounded-2xl
-            "
+              "
               > */}
                 {children}
                 {/* </div> */}
               </main>
             </QueryProvider>
-          </InitialAuth>
           <Toaster
             position="top-right"
             toastOptions={{
