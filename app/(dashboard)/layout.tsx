@@ -9,6 +9,8 @@ export default async function DashboardLayout({ children }: {children: React.Rea
     headers: await headers(),
   }); 
 
+  console.log("session is ", session);
+  
   if(!session?.user){
     redirect("/login");
   }
