@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 
 import { DashboardPage } from '@/module/home/components/dashboard/dashboardpage'
 
