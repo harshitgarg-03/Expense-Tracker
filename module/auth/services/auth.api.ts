@@ -30,7 +30,7 @@ export const loginUser = async (data: authProp) => {
 };
 
 export const getCurrentUser = async () => {
-  const res = await fetch("/api/auth/get-session", {
+  const res = await fetch("/api/auth/getSession/email", {
     credentials: "include",
   });
 
