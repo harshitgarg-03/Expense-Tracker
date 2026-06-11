@@ -29,6 +29,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { auth } from "@/lib/auth";
 import { authClient } from "@/lib/auth-client";
+import { useEffect } from "react";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -51,11 +52,12 @@ const chartData = [
 ];
 
 export default async function HomePage() {
-  console.log("harshit");
-  const session = await authClient.getSession()
-  console.log("session", session);
-  
-  
+  // useEffect(() => {
+
+  //   funct
+   
+
+  // }, [])
   return (
     <div className="w-full bg-linear-to-b from-background to-muted/20">
       {/* HERO */}

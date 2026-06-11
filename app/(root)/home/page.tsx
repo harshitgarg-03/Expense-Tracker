@@ -1,11 +1,13 @@
-"use client"
+"use client";
 
-import HomePage from '@/module/home/components/home/homepage'
+import { authClient } from "@/lib/auth-client";
+import HomePage from "@/module/home/components/home/homepage";
 
-function page() {
-  return (
-    <HomePage/>
-  )
+async function page() {
+  console.log("harshit");
+  const session = await authClient.getSession();
+  console.log("session", session);
+  return <HomePage />;
 }
 
-export default page
+export default page;
