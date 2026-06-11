@@ -11,7 +11,7 @@ export default async function DashboardLayout({ children }: {children: React.Rea
 
   console.log("session is ", session);
   
-  if(!session?.user){
+  if(!session){
     redirect("/login");
   }
   
