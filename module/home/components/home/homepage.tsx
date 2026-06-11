@@ -27,6 +27,8 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { auth } from "@/lib/auth";
+import { authClient } from "@/lib/auth-client";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -48,7 +50,12 @@ const chartData = [
   { month: "May", income: 8200, expenses: 4150 },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  console.log("harshit");
+  const session = await authClient.getSession()
+  console.log("session", session);
+  
+  
   return (
     <div className="w-full bg-linear-to-b from-background to-muted/20">
       {/* HERO */}
