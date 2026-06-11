@@ -29,9 +29,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
 
   return (
     <html
@@ -52,9 +49,6 @@ export default async function RootLayout({
         <div className="fixed inset-0 -z-10 pointer-events-none">
           <div className="absolute left-1/2 top-50 h-125 w-125-translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
           <div className="absolute right-0 top-1/3 h-100 w-100 rounded-full bg-blue-500/10 blur-3xl" />
-        </div>
-        <div>
-          <h1>{`${session?.user.name} ${session?.user.email} `}</h1>
         </div>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <InitialAuth>

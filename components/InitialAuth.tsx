@@ -1,20 +1,16 @@
-"use client"
-import { authClient } from '@/lib/auth-client'
-import { useRouter } from 'next/router';
-import React, { ReactNode } from 'react'
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { ReactNode } from "react";
 
-async function InitialAuth({children} : {children : ReactNode}) {
-
-    const router = useRouter();
-    const session = await authClient.getSession();
-    if((session?.data?.user)){
-        router.push("/dashboard")
-    }
-  return (
-    <>
-    {children}
-    </>
-  )
+async function InitialAuth({ children }: { children: ReactNode }) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  if (session?.user) {
+    redirect("/dashboard");
+  }
+  return <>{children}</>;
 }
 
-export default InitialAuth
+export default InitialAuth;
