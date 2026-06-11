@@ -6,6 +6,8 @@ import { DashboardClient } from "./useClientcall";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "next-themes";
 import { Footer } from "@/components/footer";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,11 +28,16 @@ function InitAuth() {
   return <DashboardClient />;
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth.api.getSession({
+      headers: await headers(),
+    }); 
+
+
   return (
     <html
       lang="en"
@@ -51,7 +58,9 @@ export default function RootLayout({
           <div className="absolute left-1/2 top-50 h-125 w-125-translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
           <div className="absolute right-0 top-1/3 h-100 w-100 rounded-full bg-blue-500/10 blur-3xl" />
         </div>
-
+        <div>
+          <h1>{`${session?.user}  `}</h1>
+        </div>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <QueryProvider>
             <InitAuth />
