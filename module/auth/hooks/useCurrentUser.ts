@@ -11,7 +11,7 @@ export const useCurrentUser = () => {
     // const isAuthenticate = false;
     // const userId = "";
     const setUser = useAuthStore(s => s.setUser);
-    // const router = useRouter();
+    const router = useRouter();
     const {data} =  useQuery({
         queryKey: ["current-user"],
         queryFn: async () => {
@@ -26,7 +26,7 @@ export const useCurrentUser = () => {
             setUser(data.user);
             isAuthenticate: true;
             userId: data.user._id
-            // router.push("/dashboard");
+            router.push("/dashboard");
         }
     }, [data, setUser])
     return data;

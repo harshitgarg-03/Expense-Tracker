@@ -1,5 +1,3 @@
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 
 export const signupUser = async (data: authProp) => {
   const res = await fetch("/api/auth/sign-up/email", {
@@ -32,20 +30,11 @@ export const loginUser = async (data: authProp) => {
 };
 
 export const getCurrentUser = async () => {
-  // const res = await fetch("/api/auth/get-session", {
-  //   credentials: "include",
-  // });
+  const res = await fetch("/api/auth/get-session", {
+    credentials: "include",
+  });
 
-  const session = await auth.api.getSession({
-    headers: await headers()
-  })
+  if (!res.ok) return null;
 
-  // if (!res.ok) return null;
-
-  if(!session){
-    console.log("unauthentucated");
-  } else {
-    console.log("session is ", session);
-  }
-  return session?.user;
+  return res.json();
 };
