@@ -59,7 +59,7 @@ export default async function RootLayout({
           <div className="absolute right-0 top-1/3 h-100 w-100 rounded-full bg-blue-500/10 blur-3xl" />
         </div>
         <div>
-          <h1>{`${session?.user}  `}</h1>
+          <h1>{`${session?.user.name} ${session?.user.email} `}</h1>
         </div>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <QueryProvider>
