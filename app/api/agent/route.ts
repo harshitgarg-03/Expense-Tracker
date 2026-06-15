@@ -11,6 +11,11 @@ export async function POST(req: NextRequest) {
 
   try {
     const { question, threadId } = await req.json();
+    console.log({
+      user_id: session.user.id,
+      question,
+      thread_id: threadId,
+    });
 
     // Call the Python AI Financial Agent FastAPI backend running locally
     const res = await fetch("https://ai-financial-agent-1.onrender.com/chat", {
@@ -28,9 +33,12 @@ export async function POST(req: NextRequest) {
     if (!res.ok) {
       const errorText = await res.text();
       console.error("AI Agent backend returned error:", errorText);
-      return new NextResponse("Error communicating with AI Financial Agent backend", {
-        status: res.status,
-      });
+      return new NextResponse(
+        "Error communicating with AI Financial Agent backend",
+        {
+          status: res.status,
+        },
+      );
     }
 
     const data = await res.json();
