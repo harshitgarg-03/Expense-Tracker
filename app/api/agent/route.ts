@@ -11,14 +11,16 @@ export async function POST(req: NextRequest) {
 
   try {
     const { question, threadId } = await req.json();
+    console.log("hello ");
+    
     console.log({
       user_id: session.user.id,
       question,
-      thread_id: threadId,
+      thread_id: session.user.id,
     });
 
     // Call the Python AI Financial Agent FastAPI backend running locally
-    const res = await fetch("https://ai-financial-agent-1.onrender.com/chat", {
+    const res = await fetch("https://ai-financial-agent-1.onrender.com/api/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +28,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         user_id: session.user.id,
         question: question,
-        thread_id: threadId || `session_${session.user.id}`,
+        thread_id: `session_${session.user.id}`,
       }),
     });
 

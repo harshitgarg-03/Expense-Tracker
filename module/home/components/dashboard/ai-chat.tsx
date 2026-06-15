@@ -37,7 +37,7 @@ export function AIChat({ onClose }: AIChatProps) {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-
+  
   // Auto-scroll to bottom of conversation
   useEffect(() => {
     if (scrollRef.current) {
@@ -61,6 +61,7 @@ export function AIChat({ onClose }: AIChatProps) {
     setIsLoading(true);
 
     try {
+      // console.log("user :: ", user)
       const response = await fetch("/api/agent", {
         method: "POST",
         headers: {
@@ -68,7 +69,7 @@ export function AIChat({ onClose }: AIChatProps) {
         },
         body: JSON.stringify({
           question: query,
-          threadId: `thread_${user?.email || "anonymous"}`,
+          threadId: `thread_${user?.email}`,
         }),
       });
 

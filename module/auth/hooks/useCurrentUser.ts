@@ -20,7 +20,6 @@ export const useCurrentUser = () => {
             return data;
         },
     });
-
     useEffect(() => {
         if (data) {
             setUser(data.user);
