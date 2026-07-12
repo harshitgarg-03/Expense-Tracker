@@ -38,6 +38,7 @@ export const auth = betterAuth({
       loginPage: "/login",
       resource: process.env.MCP_RESOURCE_URI!, // canonical URI of your MCP server, e.g. "https://mcp.yourapp.com"
       oidcConfig: {
+        loginPage: "/login",
         accessTokenExpiresIn: 900, // 15 min — short-lived is important, see hardening section
         refreshTokenExpiresIn: 60 * 60 * 24 * 30, // 30 days
       },
