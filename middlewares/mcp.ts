@@ -16,7 +16,7 @@ function corsHeaders(origin: string) {
   };
 }
 
-export function middleware(request: NextRequest) {
+export function mcpmiddleware(request: NextRequest) {
   const origin = request.headers.get("origin") ?? "";
   if (!ALLOWED_ORIGINS.includes(origin)) return NextResponse.next();
 

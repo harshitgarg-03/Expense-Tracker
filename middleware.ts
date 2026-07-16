@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { proxy } from "./middlewares/proxy";
-import { mcp } from "./middlewares/mcp";
+import { mcpmiddleware } from "./middlewares/mcp";
 
 
 export function middleware(request: NextRequest) {
@@ -10,8 +10,8 @@ export function middleware(request: NextRequest) {
     const auth = proxy(request);
     if(auth) return auth;
 
-    const mcpMiddleware = mcp(request);
-    if(mcpMiddleware) return mcpMiddleware;
+    const mcp_Middleware = mcpmiddleware(request);
+    if(mcp_Middleware) return mcp_Middleware;
 
     return NextResponse.next();
 }
