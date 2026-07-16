@@ -6,22 +6,15 @@ import { authClient } from "@/lib/auth-client";
 
 function ConsentContent() {
   const params = useSearchParams();
-  const clientId = params.get("client_id") ?? "Application";
+  const clientName = params.get("client_name") ?? "This application";
   const scopes = (params.get("scope") ?? "").split(" ").filter(Boolean);
 
   async function respond(approve: boolean) {
-    const consentCode = params.get("consent_code");
-    const res = await authClient.$fetch<{ redirectURI: string }>("/oauth2/consent", {
+    await authClient.$fetch("/mcp/consent", {
       method: "POST",
-      body: { 
-        accept: approve, 
-        consent_code: consentCode 
-      },
+      body: { accept: approve, oauth_query: params.get("oauth_query") },
     });
-
-    if (res && "data" in res && res.data?.redirectURI) {
-      window.location.href = res.data.redirectURI;
-    }
+    // Better Auth redirects the browser back to the MCP client's redirect_uri
   }
 
   return (
@@ -31,7 +24,7 @@ function ConsentContent() {
           Authorization Request
         </h1>
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          <span className="font-medium text-gray-800 dark:text-gray-200">{clientId}</span> wants access to your account details.
+          <span className="font-medium text-gray-800 dark:text-gray-200">{clientName}</span> wants access to your account details.
         </p>
       </div>
 
