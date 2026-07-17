@@ -1,7 +1,7 @@
 import { proxy } from "./proxy";
-import { mcpmiddleware } from "./mcp";
+import { middleware } from "./mcp";
 
 export const middlewares = [
   proxy,
-  mcpmiddleware,
+middleware,
 ];
