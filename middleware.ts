@@ -1,22 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-
-import { proxy } from "./middlewares/proxy";
-import { mcpmiddleware } from "./middlewares/mcp";
-
+import { middlewares } from "./middlewares";
 
 export function middleware(request: NextRequest) {
-    
+  for (const handler of middlewares) {
+    const response = handler(request);
 
-    const auth = proxy(request);
-    if(auth) return auth;
+    if (response) {
+      return response;
+    }
+  }
 
-    const mcp_Middleware = mcpmiddleware(request);
-    if(mcp_Middleware) return mcp_Middleware;
-
-    return NextResponse.next();
+  return NextResponse.next();
 }
 
-
 export const config = {
-    matcher: ["/:path*"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico).*)",
+  ],
 };
