@@ -1,40 +1,14 @@
-// app/.well-known/oauth-protected-resource/route.ts
-
+import { oauthProviderResourceClient } from "@better-auth/oauth-provider/resource-client";
+import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const resource = process.env.MCP_RESOURCE_URI;
-  const issuer = process.env.BETTER_AUTH_URL;
-
-  if (!resource || !issuer) {
-    return NextResponse.json(
-      { error: "OAuth configuration missing" },
-      { status: 500 }
-    );
-  }
-
-  return NextResponse.json({
-    resource,
-    authorization_servers: [issuer],
+  const resourceClient = oauthProviderResourceClient(auth);
+  const metadata = await resourceClient.getActions().getProtectedResourceMetadata({
+    jwks_uri: `${auth.options.baseURL}/api/auth/jwks`,
+    bearer_methods_supported: ["header"],
+    resource_signing_alg_values_supported: ["RS256"],
   });
+
+  return NextResponse.json(metadata);
 }
-
-
-
-// import { oAuthProtectedResourceMetadata } from "better-auth/plugins";
-// import { auth } from "@/lib/auth";
-
-// type MCPProtectedResourceAuth =
-//   Parameters<typeof oAuthProtectedResourceMetadata>[0];
-
-// export const GET = oAuthProtectedResourceMetadata(
-//   auth as unknown as MCPProtectedResourceAuth
-// );
-
-
-
-
-// import { oAuthProtectedResourceMetadata } from "@better-auth/oauth-provider";
-// import { auth } from "@/lib/auth";
-
-// export const GET = oAuthProtectedResourceMetadata(auth);

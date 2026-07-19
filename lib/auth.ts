@@ -40,6 +40,11 @@ export const auth = betterAuth({
       consentPage: "/consent",
       accessTokenExpiresIn: 900,
       refreshTokenExpiresIn: 60 * 60 * 24 * 30,
+      allowDynamicClientRegistration: true,
+      allowUnauthenticatedClientRegistration: true,
+      silenceWarnings: {
+        oauthAuthServerConfig: true,
+      },
     }),
 
     // mcp({
