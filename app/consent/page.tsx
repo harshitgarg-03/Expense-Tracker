@@ -10,14 +10,19 @@ function ConsentContent() {
   const scopes = (params.get("scope") ?? "").split(" ").filter(Boolean);
 
   async function respond(approve: boolean) {
-    const res = await authClient.$fetch<{ redirect: boolean; url: string }>("/oauth2/consent", {
-      method: "POST",
-      body: { accept: approve },
-    });
-    if (res && res.data?.url) {
-      window.location.href = res.data?.url;
-    }
+  const { data, error } = await authClient.oauth2.consent({
+    accept: approve,
+    scope: scopes.join(" "),
+  });
+
+  if (error) {
+    console.error("Consent failed:", error);
+    return;
   }
+  if (data?.redirect && data?.url) {
+    window.location.href = data.url;
+  }
+}
 
   return (
     <div className="max-w-md mx-auto mt-20 p-6 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-lg space-y-6">
