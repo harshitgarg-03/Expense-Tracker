@@ -11,11 +11,13 @@
 // export { prisma };
 
 
-
+import "dotenv/config";
 import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
-const connectionString = process.env.DATABASE_URL;
+// const connectionString = "postgresql://neondb_owner:npg_Rv7mDBZd5jwV@ep-soft-base-apz06tg5-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require&connect_timeout=15";
+
+const connectionString = process.env.DATABASE_URL!;
 // console.log("helo", connectionString);
 
 if (!connectionString) {
