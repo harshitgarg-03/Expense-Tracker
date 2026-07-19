@@ -20,8 +20,8 @@ function ConsentContent() {
     return;
   }
   if (data?.redirect && data?.url) {
-    window.location.href = data.url;
-  }
+  window.location.assign(data.url);
+}
 }
 
   return (
