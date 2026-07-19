@@ -10,11 +10,13 @@ function ConsentContent() {
   const scopes = (params.get("scope") ?? "").split(" ").filter(Boolean);
 
   async function respond(approve: boolean) {
-    await authClient.$fetch("/mcp/consent", {
+    const res = await authClient.$fetch<{ redirect: boolean; url: string }>("/oauth2/consent", {
       method: "POST",
-      body: { accept: approve, oauth_query: params.get("oauth_query") },
+      body: { accept: approve },
     });
-    // Better Auth redirects the browser back to the MCP client's redirect_uri
+    if (res && res.data?.url) {
+      window.location.href = res.data?.url;
+    }
   }
 
   return (
