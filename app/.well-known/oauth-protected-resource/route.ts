@@ -4,23 +4,20 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const resource = process.env.MCP_RESOURCE_URI;
-  const authorizationServer = process.env.BETTER_AUTH_URL;
+  const issuer = process.env.BETTER_AUTH_URL;
 
-  if (!resource || !authorizationServer) {
+  if (!resource || !issuer) {
     return NextResponse.json(
-      { error: "Missing OAuth environment variables" },
+      { error: "OAuth configuration missing" },
       { status: 500 }
     );
   }
 
   return NextResponse.json({
     resource,
-    authorization_servers: [authorizationServer],
+    authorization_servers: [issuer],
   });
 }
-
-
-
 
 
 
