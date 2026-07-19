@@ -42,6 +42,7 @@ export const auth = betterAuth({
       refreshTokenExpiresIn: 60 * 60 * 24 * 30,
       allowDynamicClientRegistration: true,
       allowUnauthenticatedClientRegistration: true,
+      scopes: ["openid", "profile", "email", "offline_access", "expenses:read", "expenses:write"],
       silenceWarnings: {
         oauthAuthServerConfig: true,
       },
