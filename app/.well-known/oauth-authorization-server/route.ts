@@ -27,8 +27,8 @@ export async function GET() {
     jwks_uri:
       `${issuer}/api/auth/mcp/jwks`,
 
-    registration_endpoint:
-      `${issuer}/api/auth/mcp/register`,
+    // registration_endpoint:
+    //   `${issuer}/api/auth/mcp/register`,
 
     scopes_supported: [
       "openid",
