@@ -4,8 +4,8 @@ export const authClient = createAuthClient({
     baseURL: typeof window !== "undefined" ? window.location.origin : process.env.BETTER_AUTH_URL,
 })
 
-const signIn = async (provider: "google" | "github") => {
-  const data = await authClient.signIn.social({
-    provider,
-  });
-};
+// const signIn = async (provider: "google" | "github") => {
+//   const data = await authClient.signIn.social({
+//     provider,
+//   });
+// };

@@ -4,9 +4,9 @@ import "./globals.css";
 import QueryProvider from "@/components/provider/QueryProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "next-themes";
-import { Footer } from "@/components/footer";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+// import { Footer } from "@/components/footer";
+// import { auth } from "@/lib/auth";
+// import { headers } from "next/headers";
 
 
 const geistSans = Geist({

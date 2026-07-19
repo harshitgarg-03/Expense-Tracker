@@ -69,6 +69,6 @@ export async function PUT(
 
     return Response.json(transaction);
   } catch (error) {
-    return new Response("update txn failed!", { status: 500 });
+    return new Response(`update txn failed!${error}`, { status: 500 });
   }
 }

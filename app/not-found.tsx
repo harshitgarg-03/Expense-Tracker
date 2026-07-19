@@ -13,7 +13,7 @@ export default function NotFound() {
 
       {/* Message */}
       <p className="text-xl mt-4 text-gray-300 text-center">
-        Oops! The page you're looking for doesn’t exist.
+        Oops! The page you&apos;re looking for doesn&apos;t exist.
       </p>
 
       {/* Subtext */}

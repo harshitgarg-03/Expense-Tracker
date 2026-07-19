@@ -10,14 +10,8 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { question, threadId } = await req.json();
-    console.log("hello ");
-    
-    console.log({
-      user_id: session.user.id,
-      question,
-      thread_id: session.user.id,
-    });
+    const { question } = await req.json();
+    // console.log("hello ");
 
     // Call the Python AI Financial Agent FastAPI backend running locally
     const res = await fetch("https://ai-financial-agent-1.onrender.com/api/chat", {
