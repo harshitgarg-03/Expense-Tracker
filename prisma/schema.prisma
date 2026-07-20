@@ -54,7 +54,6 @@ model User {
   transaction        Transaction[]
   accounts           Account[]
   oauthaccesstokens  OauthAccessToken[]
-  oauthapplications  OauthApplication[]
   oauthclients       OauthClient[]
   oauthconsents      OauthConsent[]
   oauthrefreshtokens OauthRefreshToken[]
@@ -122,27 +121,6 @@ model Jwks {
   @@map("jwks")
 }
 
-model OauthApplication {
-  id                String             @id
-  name              String?
-  icon              String?
-  metadata          String?
-  clientId          String?            @unique
-  clientSecret      String?
-  redirectUrls      String?
-  type              String?
-  disabled          Boolean?           @default(false)
-  userId            String?
-  createdAt         DateTime?
-  updatedAt         DateTime?
-  oauthaccesstokens OauthAccessToken[]
-  user              User?              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  oauthconsents     OauthConsent[]
-
-  @@index([userId])
-  @@map("oauthApplication")
-}
-
 model OauthAccessToken {
   id                    String             @id
   accessToken           String?            @unique
@@ -159,7 +137,7 @@ model OauthAccessToken {
   refreshId             String?
   sessionId             String?
   token                 String?            @unique
-  oauthapplication      OauthApplication?  @relation(fields: [clientId], references: [clientId], onDelete: Cascade)
+  oauthclient           OauthClient?       @relation(fields: [clientId], references: [clientId], onDelete: Cascade)
   oauthrefreshtoken     OauthRefreshToken? @relation(fields: [refreshId], references: [id], onDelete: Cascade)
   session               Session?           @relation(fields: [sessionId], references: [id])
   user                  User?              @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -172,16 +150,16 @@ model OauthAccessToken {
 }
 
 model OauthConsent {
-  id               String            @id
-  clientId         String?
-  userId           String?
-  scopes           String[]
-  createdAt        DateTime?
-  updatedAt        DateTime?
-  consentGiven     Boolean?
-  referenceId      String?
-  oauthapplication OauthApplication? @relation(fields: [clientId], references: [clientId], onDelete: Cascade)
-  user             User?             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String       @id
+  clientId     String?
+  userId       String?
+  scopes       String[]
+  createdAt    DateTime?
+  updatedAt    DateTime?
+  consentGiven Boolean?
+  referenceId  String?
+  oauthclient  OauthClient? @relation(fields: [clientId], references: [clientId], onDelete: Cascade)
+  user         User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([clientId])
   @@index([userId])
@@ -220,6 +198,8 @@ model OauthClient {
   referenceId             String?
   metadata                Json?
   user                    User?               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  oauthaccesstokens       OauthAccessToken[]
+  oauthconsents           OauthConsent[]
   oauthrefreshtokens      OauthRefreshToken[]
 
   @@index([userId])
