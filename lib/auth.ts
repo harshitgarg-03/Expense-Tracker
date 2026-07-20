@@ -43,6 +43,7 @@ export const auth = betterAuth({
       allowDynamicClientRegistration: true,
       allowUnauthenticatedClientRegistration: true,
       scopes: ["openid", "profile", "email", "offline_access", "expenses:read", "expenses:write"],
+      validAudiences: ["https://expense-tracker-mcp.fastapicloud.dev/mcp"],
       silenceWarnings: {
         oauthAuthServerConfig: true,
       },
