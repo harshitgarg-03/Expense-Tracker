@@ -175,7 +175,7 @@ model OauthConsent {
   id               String            @id
   clientId         String?
   userId           String?
-  scopes           String?
+  scopes           String[]
   createdAt        DateTime?
   updatedAt        DateTime?
   consentGiven     Boolean?
