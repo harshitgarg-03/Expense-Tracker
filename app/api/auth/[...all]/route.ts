@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { createHash } from "crypto";
+import { jwtVerify, importJWK } from "jose";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -165,6 +166,87 @@ export async function POST(request: Request) {
         );
       }
 
+      if (token.startsWith("eyJ")) {
+        // JWT Access Token
+        try {
+          const jwks = await prisma.jwks.findMany();
+          let payload: any = null;
+
+          for (const jwkRecord of jwks) {
+            try {
+              const jwk = JSON.parse(jwkRecord.publicKey);
+              const publicKey = await importJWK(jwk, "RS256");
+              const result = await jwtVerify(token, publicKey);
+              payload = result.payload;
+              break; // validation succeeded!
+            } catch (e) {
+              // try next key
+            }
+          }
+
+          if (!payload) {
+            console.error("JWT verification failed: No matching JWK or signature is invalid");
+            return NextResponse.json({ active: false });
+          }
+
+          // Validate expiration
+          const now = Math.floor(Date.now() / 1000);
+          if (payload.exp && payload.exp < now) {
+            console.warn("JWT is expired:", payload.exp, "current time:", now);
+            return NextResponse.json({ active: false });
+          }
+
+          // Get the client the token was issued to (azp)
+          const azp = payload.azp;
+          if (!azp) {
+            console.error("JWT is missing 'azp' claim");
+            return NextResponse.json({ active: false });
+          }
+
+          // Verify that the client exists and is not disabled
+          const tokenClient = await prisma.oauthClient.findUnique({
+            where: { clientId: azp }
+          });
+
+          if (!tokenClient || tokenClient.disabled) {
+            console.error(`Token client ${azp} not found or disabled`);
+            return NextResponse.json({ active: false });
+          }
+
+          // Check session if present
+          let sessionId = payload.sid;
+          if (sessionId) {
+            const session = await prisma.session.findUnique({
+              where: { id: sessionId }
+            });
+            if (!session || session.expiresAt < new Date()) {
+              sessionId = undefined;
+            }
+          }
+
+          // Token is valid! Return metadata.
+          return NextResponse.json({
+            active: true,
+            client_id: azp,
+            sub: payload.sub,
+            scope: payload.scope || "",
+            exp: payload.exp,
+            iat: payload.iat,
+            iss: payload.iss || process.env.BETTER_AUTH_URL || url.origin,
+            sid: sessionId
+          }, {
+            headers: {
+              "Cache-Control": "no-store",
+              "Pragma": "no-cache"
+            }
+          });
+        } catch (error) {
+          console.error("Error verifying JWT access token:", error);
+          return NextResponse.json({ active: false });
+        }
+      }
+
+      // Fallback to Opaque Access Token in DB
       const tokenData = await prisma.oauthAccessToken.findUnique({
         where: { accessToken: token }
       });
