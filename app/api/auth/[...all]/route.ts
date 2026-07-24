@@ -170,7 +170,7 @@ export async function POST(request: Request) {
         // JWT Access Token
         try {
           const jwks = await prisma.jwks.findMany();
-          let payload: any = null;
+          let payload: unknown = null;
 
           for (const jwkRecord of jwks) {
             try {
@@ -179,8 +179,9 @@ export async function POST(request: Request) {
               const result = await jwtVerify(token, publicKey);
               payload = result.payload;
               break; // validation succeeded!
-            } catch (e) {
+            } catch (error: unknown) {
               // try next key
+              console.error("JWT verification failed: No matching JWK or signature is invalid");
             }
           }
 
@@ -191,13 +192,13 @@ export async function POST(request: Request) {
 
           // Validate expiration
           const now = Math.floor(Date.now() / 1000);
-          if (payload.exp && payload.exp < now) {
-            console.warn("JWT is expired:", payload.exp, "current time:", now);
+          if ((payload as { exp?: number }).exp && (payload as { exp?: number }).exp! < now) {
+            console.warn("JWT is expired:", (payload as { exp?: number }).exp, "current time:", now);
             return NextResponse.json({ active: false });
           }
 
           // Get the client the token was issued to (azp)
-          const azp = payload.azp;
+          const azp = (payload as { azp?: string }).azp;
           if (!azp) {
             console.error("JWT is missing 'azp' claim");
             return NextResponse.json({ active: false });
@@ -214,7 +215,7 @@ export async function POST(request: Request) {
           }
 
           // Check session if present
-          let sessionId = payload.sid;
+          let sessionId = (payload as { sid?: string }).sid;
           if (sessionId) {
             const session = await prisma.session.findUnique({
               where: { id: sessionId }
@@ -228,12 +229,12 @@ export async function POST(request: Request) {
           return NextResponse.json({
             active: true,
             client_id: azp,
-            sub: payload.sub,
-            scope: payload.scope || "",
-            exp: payload.exp,
-            iat: payload.iat,
-            iss: payload.iss || process.env.BETTER_AUTH_URL || url.origin,
-            sid: sessionId
+            sub: (payload as { sub?: string }).sub,
+            scope: (payload as { scope?: string }).scope || "",
+            exp: (payload as { exp?: number }).exp,
+            iat: (payload as { iat?: number }).iat,
+            iss: (payload as { iss?: string }).iss || process.env.BETTER_AUTH_URL || url.origin,
+            sid: (payload as { sid?: string }).sid
           }, {
             headers: {
               "Cache-Control": "no-store",
