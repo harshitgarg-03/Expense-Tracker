@@ -21,12 +21,10 @@ export const useCurrentUser = () => {
         },
     });
     useEffect(() => {
-        if (data) {
+        if (data?.user) {
             setUser(data.user);
-            isAuthenticate: true;
-            userId: data.user._id
             router.push("/dashboard");
         }
-    }, [data, setUser])
+    }, [data, setUser, router])
     return data;
 };

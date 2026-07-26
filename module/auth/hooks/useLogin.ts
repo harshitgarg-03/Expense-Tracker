@@ -19,6 +19,7 @@ export const useLogin = () => {
         setUser(data.user);
         toast.success("Login success 🎉🎉");
         router.push("/dashboard");
+        router.refresh();
       }
     },
     onError: (error: any) => {

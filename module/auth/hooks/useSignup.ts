@@ -17,7 +17,8 @@ export const useSignup = () => {
     onSuccess: (data) => {
       setUser(data.user);
       toast.success("Account Created 🎉🎉")
-      router.push("/login");
+      router.push("/dashboard");
+      router.refresh();
     },
 
     onError: (error: any) => {
