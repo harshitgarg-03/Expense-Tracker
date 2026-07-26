@@ -20,8 +20,10 @@ import { useLogin } from "../../hooks/useLogin";
 import { useForm } from "react-hook-form";
 import { loginSchema } from "../../schema";
 import { authClient } from "@/lib/auth-client";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
 
 export function LoginPage() {
+  useCurrentUser();
   const { isPending, mutate } = useLogin();
   const { register, handleSubmit } = useForm();
 

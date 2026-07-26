@@ -19,8 +19,10 @@ import { toast } from "sonner";
 import { useSignup } from "../../hooks/useSignup";
 import { signupSchema } from "../../schema";
 import { authClient } from "@/lib/auth-client";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
 
 export function SignUpPage() {
+  useCurrentUser();
   const { mutate, isPending } = useSignup();
 
   const {
