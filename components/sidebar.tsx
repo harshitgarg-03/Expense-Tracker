@@ -3,10 +3,11 @@ import { LayoutDashboard, PlusCircle, Receipt, LogOut, Wallet } from 'lucide-rea
 import { useAuthStore } from '../module/auth/store';
 import { cn } from '../lib/utils';
 import { Button } from './ui/button';
-import { Avatar, AvatarFallback } from './ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useLogout } from '@/module/auth/hooks/useLogout';
+import { authClient } from '@/lib/auth-client';
 
 const navigation = [
   { name: 'Dashboard', to: '/dashboard', icon: LayoutDashboard },
@@ -17,8 +18,26 @@ const navigation = [
 export function Sidebar() {
   const location = usePathname();
   const { user } = useAuthStore();
+  const { data: session } = authClient.useSession();
+  const currentUser = session?.user || user;
   const router = useRouter();
   const { isPending, mutate } = useLogout();
+  
+  const getInitials = (name?: string, email?: string) => {
+    if (name) {
+      return name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2);
+    }
+    if (email) {
+      return email.charAt(0).toUpperCase();
+    }
+    return "U";
+  };
+
   const handleLogout = () => {
     mutate();
   };
@@ -72,17 +91,21 @@ export function Sidebar() {
     <div className="flex items-center gap-3 mb-4">
       <Avatar className="h-10 w-10">
         <AvatarFallback className="bg-blue-600 text-white text-sm font-semibold">
-          {user?.name?.charAt(0).toUpperCase()}
+          {getInitials(currentUser?.name, currentUser?.email)}
         </AvatarFallback>
       </Avatar>
 
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium truncate">
-          {user?.name}
-        </p>
-        <p className="text-xs text-gray-500 truncate">
-          {user?.email}
-        </p>
+        {currentUser?.name && (
+          <p className="text-sm font-medium truncate">
+            {currentUser.name}
+          </p>
+        )}
+        {currentUser?.email && (
+          <p className="text-xs text-gray-500 truncate">
+            {currentUser.email}
+          </p>
+        )}
       </div>
     </div>
 
