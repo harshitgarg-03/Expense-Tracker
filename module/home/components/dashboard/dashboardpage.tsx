@@ -9,18 +9,38 @@ import { RecentTransactions } from "./recenttrx";
 import { useTransaction } from "../../hooks/useTransaction";
 import AIInsights from "./ai-insights";
 import { AIChat } from "./ai-chat";
+import { cn } from "@/lib/utils";
+import { Bot } from "lucide-react";
             
 export function DashboardPage() {
   const { balance, monthlyData, transactions, isLoading } = useTransaction();
   const [activeTab, setActiveTab] = useState<"insights" | "advisor">("insights");
-  // console.log("total usetransaction data is " + balance + " " + monthlyData + " " + transactions + " " + isLoading );
+  const [isChatOpen, setIsChatOpen] = useState(true);
+
+  const handleTabChange = (tab: "insights" | "advisor") => {
+    setActiveTab(tab);
+    setIsChatOpen(tab === "advisor");
+  };
+
+  const handleChatClose = () => {
+    setIsChatOpen(false);
+    setActiveTab("insights");
+  };
+
+  const handleChatOpen = () => {
+    setIsChatOpen(true);
+    setActiveTab("advisor");
+  };
   
-  return (       
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
+  return (
+    <div className="flex h-full w-full gap-6 overflow-hidden">
+      {/* Left panel: Scrollable Dashboard Content */}
+      <div className="flex-1 h-full overflow-y-auto no-scrollbar pt-2 pb-6 pr-1">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
       <Header
         title="Dashboard"
         subtitle="Overview of your financial activities"
@@ -70,7 +90,7 @@ export function DashboardPage() {
             {/* Pill Tabs */}
             <div className="flex bg-black/10 dark:bg-white/5 p-1 rounded-xl border border-black/10 dark:border-white/10">
               <button
-                onClick={() => setActiveTab("insights")}
+                onClick={() => handleTabChange("insights")}
                 className={`cursor-pointer px-4 py-1.5 text-xs font-medium rounded-lg transition-all ${
                   activeTab === "insights"
                     ? "bg-blue-600 text-white shadow-sm"
@@ -80,7 +100,7 @@ export function DashboardPage() {
                 Insights
               </button>
               <button
-                onClick={() => setActiveTab("advisor")}
+                onClick={() => handleTabChange("advisor")}
                 className={`cursor-pointer px-4 py-1.5 text-xs font-medium rounded-lg transition-all ${
                   activeTab === "advisor"
                     ? "bg-blue-600 text-white shadow-sm"
@@ -106,7 +126,13 @@ export function DashboardPage() {
               isLoading={isLoading}
             />
           ) : (
-            <AIChat />
+            <div className="flex flex-col items-center justify-center py-8 text-center">
+              <Bot className="h-12 w-12 text-violet-500 mb-3 animate-pulse" />
+              <h3 className="font-semibold text-lg text-black dark:text-white">AI Financial Advisor Active</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-md">
+                Your personalized AI Advisor is now active in the right sidebar. Ask questions about your spending patterns or get savings advice!
+              </p>
+            </div>
           )}
         </div>
       </div>
@@ -121,6 +147,37 @@ export function DashboardPage() {
         />
         <RecentTransactions transactions={transactions} isLoading={isLoading} />
       </div>
-    </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Right Side Chat Panel */}
+      <div
+        className={cn(
+          "h-full shrink-0 transition-all duration-300 ease-in-out",
+          isChatOpen
+            ? "fixed inset-4 z-50 lg:relative lg:inset-auto w-[calc(100%-2rem)] lg:w-[400px] h-[calc(100vh-2rem)] lg:h-full opacity-100"
+            : "w-0 opacity-0 pointer-events-none hidden lg:block"
+        )}
+      >
+        <div className="w-full lg:w-[400px] h-full flex flex-col rounded-[2rem] border border-white/10 bg-linear-to-br from-white/4 to-white/2 backdrop-blur-2xl p-6 relative overflow-hidden">
+          {/* Glow Effects */}
+          <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-violet-500/20 blur-3xl" />
+          <div className="absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-cyan-500/20 blur-3xl" />
+          
+          <AIChat onClose={handleChatClose} />
+        </div>
+      </div>
+
+      {/* Floating Action Button */}
+      {!isChatOpen && (
+        <button
+          onClick={handleChatOpen}
+          className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-lg cursor-pointer transition-all hover:scale-105"
+        >
+          <Bot className="h-5 w-5 animate-pulse" />
+          <span className="text-sm font-semibold">AI Advisor</span>
+        </button>
+      )}
+    </div>
   );
 }

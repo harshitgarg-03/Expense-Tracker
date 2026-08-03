@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Sparkles, Bot, User, Trash2, ArrowRight } from "lucide-react";
+import { Send, Sparkles, Bot, User, Trash2, ArrowRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "../../../auth/store";
 
@@ -36,12 +36,15 @@ export function AIChat({ onClose }: AIChatProps) {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   
   // Auto-scroll to bottom of conversation
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behavior: "smooth" });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTo({
+        top: messagesContainerRef.current.scrollHeight,
+        behavior: "smooth",
+      });
     }
   }, [messages, isLoading]);
 
@@ -171,27 +174,32 @@ export function AIChat({ onClose }: AIChatProps) {
   };
 
   return (
-    <div className="flex flex-col h-[500px] w-full">
+    <div className="flex flex-col h-full w-full">
       {onClose && (
-        <div className="flex justify-between items-center pb-2 mb-2 border-b border-black/5 dark:border-white/5">
+        <div className="flex justify-between items-center pb-3 mb-3 border-b border-black/10 dark:border-white/10">
           <div className="flex items-center gap-2">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
             </span>
-            <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">Advisor online</span>
+            <span className="text-xs text-gray-500 dark:text-gray-400 font-semibold tracking-wide uppercase">Advisor online</span>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="cursor-pointer text-xs font-semibold text-gray-500 hover:text-red-500 dark:hover:text-red-400 transition-colors flex items-center gap-1 px-2 py-1 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg"
+            className="cursor-pointer p-1.5 text-gray-500 hover:text-red-500 dark:hover:text-red-400 transition-colors hover:bg-black/5 dark:hover:bg-white/5 rounded-lg"
+            aria-label="Close Chat"
+            title="Close Chat"
           >
-            Close Chat &times;
+            <X className="h-4 w-4" />
           </button>
         </div>
       )}
       {/* Messages Window */}
-      <div className="flex-1 overflow-y-auto no-scrollbar pr-2 mb-4 space-y-4 min-h-[300px]">
+      <div
+        ref={messagesContainerRef}
+        className="flex-1 overflow-y-auto no-scrollbar pr-2 mb-4 space-y-4 scroll-smooth"
+      >
         <AnimatePresence initial={false}>
           {messages.map((msg) => (
             <motion.div
@@ -255,8 +263,6 @@ export function AIChat({ onClose }: AIChatProps) {
             </motion.div>
           )}
         </AnimatePresence>
-        
-        <div ref={scrollRef} />
       </div>
 
       {/* Suggestion Chips */}
