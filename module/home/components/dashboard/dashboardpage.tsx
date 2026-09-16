@@ -11,7 +11,7 @@ import AIInsights from "./ai-insights";
 import { AIChat } from "./ai-chat";
 import { cn } from "@/lib/utils";
 import { Bot } from "lucide-react";
-            
+             
 export function DashboardPage() {
   const { balance, monthlyData, transactions, isLoading } = useTransaction();
   const [activeTab, setActiveTab] = useState<"insights" | "advisor">("insights");
