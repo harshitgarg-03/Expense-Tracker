@@ -7,10 +7,10 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports: 
-     - "5432:5432"
+     - "5433:5432"
 
     volumes:
-      - app_db:/var/lib/postgressql/data
+      - app_db:/var/lib/postgresql/data
     restart: unless-stopped
 
 volumes: 

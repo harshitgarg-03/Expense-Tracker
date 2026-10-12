@@ -2,5 +2,5 @@ node_modules
 .next
 .git
 .env
-DockerFile
+"Dockerfile"
 docker-compose.yml
