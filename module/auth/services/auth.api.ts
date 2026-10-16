@@ -1,3 +1,4 @@
+import { apiErrorFromResponse } from "@/lib/api-error";
 
 export const signupUser = async (data: authProp) => {
   const res = await fetch("/api/auth/sign-up/email", {
@@ -9,7 +10,12 @@ export const signupUser = async (data: authProp) => {
     },
   });
 
-  if (!res.ok) throw new Error("Signup user failed!");
+  if (!res.ok) {
+    throw await apiErrorFromResponse(
+      res,
+      "Couldn't create your account. Please try again.",
+    );
+  }
 
   return res.json();
 };
@@ -24,7 +30,12 @@ export const loginUser = async (data: authProp) => {
     },
   });
 
-  if (!res.ok) throw new Error("login failed ");
+  if (!res.ok) {
+    throw await apiErrorFromResponse(
+      res,
+      "Login failed. Please check your email and password.",
+    );
+  }
 
   return res.json();
 };

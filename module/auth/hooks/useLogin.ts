@@ -5,6 +5,7 @@ import { loginUser } from "../services/auth.api";
 import { useAuthStore } from "../store";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { toastError } from "@/lib/api-error";
 
 export const useLogin = () => {
   const router = useRouter();
@@ -22,8 +23,8 @@ export const useLogin = () => {
         router.refresh();
       }
     },
-    onError: (error: any) => {
-      toast.error(error.message || "Login failed 👎");
+    onError: (error) => {
+      toastError(error, "Login failed. Please try again.");
     },
   });
 };

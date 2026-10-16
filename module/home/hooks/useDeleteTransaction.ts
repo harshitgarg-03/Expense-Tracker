@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteTransaction } from "../services/transaction.api";
 import { toast } from "sonner";
+import { toastError } from "@/lib/api-error";
 
 export const useDeleteTransaction = () => {
   const queryclient = useQueryClient();
@@ -12,9 +13,8 @@ export const useDeleteTransaction = () => {
       queryclient.invalidateQueries({ queryKey: ["transaction"] });
       toast.success("Transaction Delete success! 👍");
     },
-    onError: () => {
-      toast.error("Transaction Delete failed! 👎");
+    onError: (error) => {
+      toastError(error, "Couldn't delete the transaction. Please try again.");
     },
   });
 };
-   

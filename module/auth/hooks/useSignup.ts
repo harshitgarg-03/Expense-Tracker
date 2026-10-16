@@ -5,6 +5,7 @@ import { signupUser } from "../services/auth.api";
 import { useAuthStore } from "../store";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { toastError } from "@/lib/api-error";
 
 
 export const useSignup = () => {
@@ -21,12 +22,8 @@ export const useSignup = () => {
       router.refresh();
     },
 
-    onError: (error: any) => {
-      console.log("sing up ", error);
-      
-      toast.error(error.message || "Signup failed 👎", {
-        className: "bg-red-600 text-white"
-      })
+    onError: (error) => {
+      toastError(error, "Signup failed. Please try again.");
     },
   });
 };
