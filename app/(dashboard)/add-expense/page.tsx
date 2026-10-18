@@ -1,8 +1,8 @@
-import { ExpenseFormUI } from '@/module/home/components/addExpense/addExpensePage'
+import { AddTransactionHub } from '@/module/home/components/addExpense/add-transaction-hub'
 
 function page() {
   return (
-    <ExpenseFormUI mode={"Add"} />
+    <AddTransactionHub />
   )
 }
 

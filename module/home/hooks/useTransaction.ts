@@ -1,14 +1,24 @@
 "use client";
 
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { toastError } from "@/lib/api-error";
 import { getTransactions } from "../services/transaction.api";
 import { Transaction } from "../types";
 
 export const useTransaction = () => {
-  const { data = [], isLoading } = useQuery({
+  const { data = [], isLoading, isError, error } = useQuery({
     queryKey: ["transaction"],
     queryFn: getTransactions,
+    retry: 1,
   });
+
+  // Tell the user when loading fails (instead of silently showing $0.00)
+  useEffect(() => {
+    if (isError) {
+      toastError(error, "Couldn't load your transactions. Please refresh the page.");
+    }
+  }, [isError, error]);
 
   const allMonths = [
     "Jan",
@@ -108,6 +118,8 @@ export const useTransaction = () => {
     balance,
     monthlyData,
     transactions,
+    allTransactions: data as Transaction[],
     isLoading,
+    isError,
   };
 };

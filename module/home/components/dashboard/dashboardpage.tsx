@@ -11,9 +11,11 @@ import AIInsights from "./ai-insights";
 import { AIChat } from "./ai-chat";
 import { cn } from "@/lib/utils";
 import { Bot } from "lucide-react";
+import { KeepAnEye } from "./keep-an-eye";
 
 export function DashboardPage() {
-  const { balance, monthlyData, transactions, isLoading } = useTransaction();
+  const { balance, monthlyData, transactions, allTransactions, isLoading } =
+    useTransaction();
   const [activeTab, setActiveTab] = useState<"insights" | "advisor">(
     "insights",
   );
@@ -68,6 +70,9 @@ export function DashboardPage() {
               isLoading={isLoading}
             />
           </div>
+
+          {/* Keep an Eye: monthly limits + alerts */}
+          <KeepAnEye transactions={allTransactions} isLoading={isLoading} />
 
           {/* Ai-insigth section */}
           <div className="relative overflow-hidden mb-8 rounded-[2rem] border border-white/10 bg-linear-to-br from-white/4 to-white/2 backdrop-blur-2xl">
@@ -166,7 +171,7 @@ export function DashboardPage() {
           "h-full shrink-0 transition-all duration-300 ease-in-out",
           isChatOpen
             ? "fixed inset-4 z-50 lg:relative lg:inset-auto w-[calc(100%-2rem)] lg:w-[400px] h-[calc(100vh-2rem)] lg:h-full opacity-100"
-            : "w-0 opacity-0 pointer-events-none hidden lg:block",
+            : "w-0 opacity-0 pointer-events-none hidden lg:block overflow-hidden",
         )}
       >
         <div className="w-full lg:w-[400px] h-full flex flex-col rounded-[2rem] border border-white/10 bg-linear-to-br from-white/4 to-white/2 backdrop-blur-2xl p-6 relative overflow-hidden">

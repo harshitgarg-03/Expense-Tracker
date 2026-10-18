@@ -25,6 +25,7 @@ import { Label } from "@/components/ui/label";
 import { useDeleteTransaction } from "../../hooks/useDeleteTransaction";
 import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { ImportStatement } from "./import-statement";
 
 export function TransactionTableUI() {
   const { transactions, isLoading } = useTransaction();
@@ -79,6 +80,9 @@ export function TransactionTableUI() {
             </SelectContent>
           </Select>
         </div>
+
+        {/* Import bank statement (PDF) */}
+        <ImportStatement />
 
         {/* Right: Count */}
         <span className="text-lg font-semibold text-gray-500 whitespace-nowrap">

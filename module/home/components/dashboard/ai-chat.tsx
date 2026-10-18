@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Send, Sparkles, Bot, User, Trash2, ArrowRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "../../../auth/store";
+import { apiErrorFromResponse, toastError } from "@/lib/api-error";
 
 interface Message {
   id: string;
@@ -77,7 +78,10 @@ export function AIChat({ onClose }: AIChatProps) {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to get agent response");
+        throw await apiErrorFromResponse(
+          response,
+          "The AI advisor isn't responding right now. Please try again in a moment.",
+        );
       }
 
       const data = await response.json();
@@ -90,11 +94,12 @@ export function AIChat({ onClose }: AIChatProps) {
       };
       setMessages((prev) => [...prev, assistantMsg]);
     } catch (error) {
-      console.error("Chat error:", error);
+      // Popup for the user; technical details stay in the dev console
+      toastError(error, "The AI advisor isn't responding right now. Please try again.");
       const errorMsg: Message = {
         id: Math.random().toString(),
         role: "assistant",
-        content: "Oops! I encountered an error connecting to my server. Please make sure the Python AI agent backend is running.",
+        content: "Sorry, I couldn't get an answer just now. Please try again in a moment.",
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMsg]);

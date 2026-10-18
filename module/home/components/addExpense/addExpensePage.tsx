@@ -16,6 +16,7 @@ import { useAddTransaction } from "../../hooks/useAddTransaction";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { ExpenseUIFormProps, Transaction, TransactionInput } from "../../types";
 import { useEditTransaction } from "../../hooks/useEditTransaction";
+import { toast } from "sonner";
 
 export const categories = [
   "Food",
@@ -35,6 +36,24 @@ export function ExpenseFormUI({ mode, EditTxn }: ExpenseUIFormProps) {
   const Edittxns = useEditTransaction();
   const { register, handleSubmit, setValue, watch, reset } = useForm();
   const onSubmit = async (data: any) => {
+    // Friendly validation popups instead of silent failures
+    if (!data.title?.trim()) {
+      toast.error("Please enter a title.");
+      return;
+    }
+    if (!Number(data.amount) || Number(data.amount) <= 0) {
+      toast.error("Amount must be greater than 0.");
+      return;
+    }
+    if (!data.category) {
+      toast.error("Please select a category.");
+      return;
+    }
+    if (!data.date) {
+      toast.error("Please pick a date.");
+      return;
+    }
+
     const payload = {
       ...data,
       type: type,
@@ -43,6 +62,7 @@ export function ExpenseFormUI({ mode, EditTxn }: ExpenseUIFormProps) {
     };
     // console.log("payload is ", payload);
 
+    try {
     if (mode == "Add") {
       await Addtxn.mutateAsync(payload);
     } else {
@@ -57,7 +77,11 @@ export function ExpenseFormUI({ mode, EditTxn }: ExpenseUIFormProps) {
         },
       });
     }
-    reset();
+      reset();
+    } catch {
+      // The error popup is shown by the mutation's onError.
+      // Keep the form filled so the user can fix it and retry.
+    }
   };
 
   useEffect(() => {
@@ -98,6 +122,7 @@ export function ExpenseFormUI({ mode, EditTxn }: ExpenseUIFormProps) {
 
               <div className="flex bg-gray-100 dark:bg-gray-900 rounded-md p-1">
                 <button
+                  type="button"
                   onClick={() => {
                     setType("EXPENSE");
                     setValue("type", "EXPENSE");
@@ -112,6 +137,7 @@ export function ExpenseFormUI({ mode, EditTxn }: ExpenseUIFormProps) {
                 </button>
 
                 <button
+                  type="button"
                   onClick={() => {
                     setType("INCOME");
                     setValue("type", "INCOME");

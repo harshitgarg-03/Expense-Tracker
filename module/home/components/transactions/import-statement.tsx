@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { apiErrorFromResponse, toastError } from "@/lib/api-error";
 import { FileUp, Loader2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Category } from "../../types";
@@ -35,15 +36,17 @@ export function ImportStatement() {
       const fd = new FormData();
       fd.append("file", file);
       const res = await fetch("/api/transaction/import", { method: "POST", body: fd });
+      if (!res.ok) {
+        throw await apiErrorFromResponse(res, "Couldn't read this statement. Please try another PDF.");
+      }
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Import failed");
       if (!data.transactions.length) {
-        toast.error("Is PDF mein koi transaction nahi mila");
+        toast.error("No transactions found in this PDF. Make sure it's a bank statement with selectable text.");
         return;
       }
       setRows(data.transactions.map((t: Omit<Row, "selected">) => ({ ...t, selected: true })));
     } catch (e: any) {
-      toast.error(e.message);
+      toastError(e, "Couldn't read this statement. Please try again.");
     } finally {
       setLoading(false);
       if (inputRef.current) inputRef.current.value = "";
@@ -63,13 +66,15 @@ export function ImportStatement() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ transactions: selected }),
       });
+      if (!res.ok) {
+        throw await apiErrorFromResponse(res, "Couldn't save the transactions. Please try again.");
+      }
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Save failed");
       toast.success(`${data.created} transactions added, ${data.skipped} duplicates skipped`);
       queryClient.invalidateQueries({ queryKey: ["transaction"] });
       setRows(null);
     } catch (e: any) {
-      toast.error(e.message);
+      toastError(e, "Couldn't save the transactions. Please try again.");
     } finally {
       setSaving(false);
     }
