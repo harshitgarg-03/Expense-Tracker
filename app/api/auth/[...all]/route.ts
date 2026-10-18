@@ -181,7 +181,7 @@ export async function POST(request: Request) {
               break; // validation succeeded!
             } catch (error: unknown) {
               // try next key
-              console.error("JWT verification failed: No matching JWK or signature is invalid");
+              console.error("JWT verification failed: No matching JWK or signature is invalid", error);
             }
           }
 

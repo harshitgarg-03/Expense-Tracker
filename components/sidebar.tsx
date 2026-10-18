@@ -3,7 +3,7 @@ import { LayoutDashboard, PlusCircle, Receipt, LogOut, Wallet } from 'lucide-rea
 import { useAuthStore } from '../module/auth/store';
 import { cn } from '../lib/utils';
 import { Button } from './ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { Avatar, AvatarFallback} from './ui/avatar';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useLogout } from '@/module/auth/hooks/useLogout';

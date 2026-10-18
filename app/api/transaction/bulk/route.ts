@@ -12,43 +12,82 @@ const CATEGORIES = [
   "Salary",
   "Freelance",
   "Other",
-];
+] as const;
 
-const keyOf = (t: {
+type BankTransactionInput = {
+  title?: unknown;
+  amount?: unknown;
+  type?: unknown;
+  category?: unknown;
+  date?: unknown;
+};
+
+type ValidatedTransaction = {
+  title: string;
+  amount: number;
+  type: "INCOME" | "EXPENSE";
+  category: (typeof CATEGORIES)[number];
+  date: Date;
+};
+
+type TransactionKeyInput = {
   date: Date | string;
   amount: number;
   type: string;
   title: string;
-}) =>
+};
+
+const keyOf = (t: TransactionKeyInput): string =>
   `${new Date(t.date).toISOString().slice(0, 10)}|${t.amount}|${t.type}|${t.title.toLowerCase()}`;
 
 export async function POST(req: Request) {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session?.user) return new Response("unauthorized", { status: 401 });
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-  const body = await req.json();
-  const items = Array.isArray(body.transactions)
-    ? body.transactions.slice(0, 500)
-    : [];
-
-  const valid = items
-    .map((t: any) => ({
-      title: String(t.title ?? "")
-        .trim()
-        .slice(0, 100),
-      amount: Math.abs(Number(t.amount)),
-      type: t.type === "INCOME" ? "INCOME" : "EXPENSE",
-      category: CATEGORIES.includes(t.category) ? t.category : "Other",
-      date: new Date(t.date),
-    }))
-    .filter((t: any) => t.title && t.amount > 0 && !isNaN(t.date.getTime()));
-
-  if (valid.length === 0) {
-    return Response.json({ error: "No valid transactions" }, { status: 400 });
+  if (!session?.user) {
+    return new Response("unauthorized", { status: 401 });
   }
 
-  // Duplicate check: wahi statement dobara upload karne par double entries na bane
-  const times = valid.map((t: any) => t.date.getTime());
+  const body: unknown = await req.json();
+
+  const transactions =
+    typeof body === "object" &&
+    body !== null &&
+    "transactions" in body &&
+    Array.isArray(body.transactions)
+      ? body.transactions.slice(0, 500) as BankTransactionInput[]
+      : [];
+
+  const valid: ValidatedTransaction[] = transactions
+    .map((t): ValidatedTransaction => ({
+      title: String(t.title ?? "").trim().slice(0, 100),
+      amount: Math.abs(Number(t.amount)),
+      type: t.type === "INCOME" ? "INCOME" : "EXPENSE",
+      category: CATEGORIES.includes(
+        t.category as (typeof CATEGORIES)[number]
+      )
+        ? (t.category as (typeof CATEGORIES)[number])
+        : "Other",
+      date: new Date(t.date as string),
+    }))
+    .filter(
+      (t) =>
+        t.title.length > 0 &&
+        Number.isFinite(t.amount) &&
+        t.amount > 0 &&
+        !isNaN(t.date.getTime())
+    );
+
+  if (valid.length === 0) {
+    return Response.json(
+      { error: "No valid transactions" },
+      { status: 400 }
+    );
+  }
+
+  const times = valid.map((t) => t.date.getTime());
+
   const existing = await prisma.transaction.findMany({
     where: {
       userId: session.user.id,
@@ -57,14 +96,29 @@ export async function POST(req: Request) {
         lte: new Date(Math.max(...times)),
       },
     },
-    select: { title: true, amount: true, type: true, date: true },
+    select: {
+      title: true,
+      amount: true,
+      type: true,
+      date: true,
+    },
   });
-  const seen = new Set(existing.map((e) => keyOf({ ...e, date: e.date! })));
 
-  const fresh = valid.filter((t: any) => !seen.has(keyOf(t)));
+  const seen = new Set(
+    existing.map((e) =>
+      keyOf({
+        title: e.title,
+        amount: Number(e.amount),
+        type: e.type,
+        date: e.date!,
+      })
+    )
+  );
+
+  const fresh = valid.filter((t) => !seen.has(keyOf(t)));
 
   const result = await prisma.transaction.createMany({
-    data: fresh.map((t: any) => ({
+    data: fresh.map((t) => ({
       ...t,
       note: "Imported from bank statement",
       userId: session.user.id,

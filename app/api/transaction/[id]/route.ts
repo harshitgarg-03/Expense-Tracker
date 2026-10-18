@@ -60,7 +60,7 @@ export async function PUT(
         title: data.title,
         amount: Number(data.amount),
         category: data.category,
-        date: data.date ? new Date(data.date) : Date.now(),
+        date: data.date ? new Date(data.date) : new Date(),
         type: data.type,
         note: data.note || null,
         userId: session.user.id,
