@@ -1,6 +1,34 @@
-node_modules
-.next
+# Dependencies aur build output (Dockerfile mein khud banta hai)
+**/node_modules
+**/.next
+out
+coverage
+
+# Git
 .git
+.gitignore
+.github
+
+# Secrets: kabhi image mein nahi
 .env
-"Dockerfile"
-docker-compose.yml
+.env.*
+!.env.example
+
+# Docker aur CI files (image ko inki zaroorat nahi)
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+Jenkinsfile
+
+# Editor aur OS
+.vscode
+.idea
+.DS_Store
+
+# Logs aur cache
+npm-debug.log*
+*.log
+*.tsbuildinfo
+
+# Docs
+*.md
