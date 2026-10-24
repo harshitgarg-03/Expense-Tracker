@@ -27,7 +27,7 @@ export function proxy(request: NextRequest) {
   }
 
   if (!isLoggedIn && isProtectedRoute) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   return NextResponse.next();
