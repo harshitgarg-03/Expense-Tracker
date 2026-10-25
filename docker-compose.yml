@@ -1,42 +1,34 @@
 services:
-  postgres_db:
-    image: postgres:17
-    container_name: postgres-db
-    environment: 
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    ports: 
-     - "127.0.0.1:5434:5432"
-
-    volumes:
-      - app_db:/var/lib/postgresql/data
-
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
-    restart: unless-stopped
-
   app:
+    # Jenkins IMAGE aur TAG set karega (jaise IMAGE=user/expense-tracker TAG=42).
+    # Local pe kuch set na ho to expense-tracker:latest build hoga.
+    image: ${IMAGE:-expense-tracker}:${TAG:-latest}
     build: .
-    image: expense-tracker:dev
     container_name: expense-app
-    depends_on:
-      postgres_db:
-        condition: service_healthy
+
+    # Saare secrets (DATABASE_URL, BETTER_AUTH_SECRET, API keys...) .env se aate hain.
+    # .env git mein nahi jata; Jenkins use "Secret file" credential se banayega.
     env_file:
       - .env
 
-    environment:    
-      DATABASE_URL: postgresql://neondb_owner:npg_52GweuoETZLJ@ep-soft-base-apz06tg5-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require 
-
     ports:
-     - "3000:3000"
+      - "3000:3000"
 
-    restart: unless-stopped 
+    restart: unless-stopped
 
+    # Free tier (1 GB RAM) pe server ko hang hone se bachane ke liye
+    mem_limit: 512m
 
-volumes:
-  app_db:
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://127.0.0.1:3000/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+    # Logs se disk full na ho
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

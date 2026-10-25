@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "user_preferences" ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;
